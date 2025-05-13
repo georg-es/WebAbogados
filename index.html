@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestión Legal</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="styles.css">
+        <style>
+            .hero-section {
+                margin: 0;
+                padding: 0;
+            }
+    
+            .hero-content {
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+    
+            .hero-content h2,
+            .hero-content p {
+                margin-bottom: 0;
+            }
+    
+            .hero-image {
+                display: block;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
+        
+    </head>
+<body>
+    <header>
+    <div class="container header-container">
+        <div class="logo">
+            <h1><i class="fas fa-gavel"></i> Gestión Legal PTY</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#about"><i class="fas fa-users"></i> Nosotros</a></li>
+                <li><a href="#services"><i class="fas fa-briefcase"></i> Servicios</a></li>
+                <li><a href="politica_seguridad.html"><i class="fas fa-shield-alt"></i> Seguridad y Privacidad</a></li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
+                    <ul class="submenu-options">
+                        <li><a href="https://wa.me/50768178670" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="formulario-contacto.html"><i class="fas fa-envelope"></i> Correo Electrónico</a></li>
+                        <li><a href="https://www.linkedin.com/in/tu-perfil" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section id="home" class="hero-section">
+    <div class="hero-content">
+        <h2>"Luchamos por tu libertad legal"</h2>
+        <p>Conecta con expertos legales que protegen tus derechos y te acompañan en cada paso.</p>
+        <a href="#services" class="btn"><i class="fas fa-arrow-right"></i> Leer más</a>
+    </div>
+    <img src="images/banner.jpg" alt="Abogado en Panamá" class="hero-image">
+</section>
+
+<section id="about" class="about-section">
+  <div class="container">
+    <h2><i class="fas fa-info-circle"></i> Sobre Nosotros</h2>
+    <div class="about-content">
+      <div class="about-item" id="historia">
+        <h3><i class="fas fa-history"></i> Nuestra Historia</h3>
+        <p>Desde sus inicios, nuestra firma ha sido un pilar en el ámbito jurídico panameño...</p>
+        <div class="hidden-content">
+          <p>Más detalles sobre nuestra historia...</p>
+        </div>
+      </div>
+      <div class="about-item" id="mision">
+        <h3><i class="fas fa-bullseye"></i> Nuestra Misión</h3> 
+        <p>Proteger los derechos y brindar soluciones legales estratégicas a nuestros clientes...</p>
+        <div class="hidden-content">
+          <p>Más detalles sobre nuestra misión...</p>
+        </div>
+      </div>
+      <div class="about-item" id="vision">
+        <h3><i class="fas fa-eye"></i> Nuestra Visión</h3> 
+        <p>Convertirnos en la firma de referencia en Panamá, reconocida por nuestra excelencia...</p>
+        <div class="hidden-content">
+          <p>Más detalles sobre nuestra visión...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-body"></div>
+  </div>
+</div>
+  
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+    </div>
+  </div>
+  
+  <style>
+  /* Estilos CSS para la ventana modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  </style>
+  
+  <script>
+  const modales = document.querySelectorAll('.about-item');
+  const modal = document.querySelector('.modal');
+  const modalContent = modal.querySelector('.modal-content');
+  const closeButton = modal.querySelector('.close');
+  
+  modales.forEach(item => {
+    item.addEventListener('click', () => {
+      modalContent.innerHTML = item.innerHTML;
+      modal.style.display = 'block';
+    });
+  });
+  
+  closeButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+  
+  window.addEventListener('click', (event) => {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  });
+  </script>
+
+    <section id="services" class="services-section">
+        <div class="container">
+          <h2><i class="fas fa-balance-scale"></i> Nuestros Servicios</h2>
+          <div class="contenedor-ventanas">  </div>
+            <div class="services-grid">
+              <div id="service1" class="service-item">
+                <h3><i class="fas fa-user-friends"></i> Derecho Familiar</h3>
+                <p>Asesoramiento en procesos legales familiares como divorcios y adopciones.</p>
+              </div>
+              <div id="service2" class="service-item">
+                <h3><i class="fas fa-user-shield"></i> Derecho Penal</h3> 
+                <p>Defensa y representación en casos penales.</p>
+              </div>
+              <div id="service3" class="service-item">
+                <h3><i class="fas fa-car-crash"></i> Accidentes</h3> 
+                <p>Compensaciones y apoyo legal tras accidentes.</p>
+              </div>
+              <div id="service4" class="service-item">
+                <h3><i class="fas fa-handshake"></i> Consultoría Legal</h3> 
+                <p>Soluciones legales adaptadas a tus necesidades empresariales o personales.</p>
+              </div>
+            </div>
+          </div>
+      </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Gestión Legal. <i class="far fa-copyright"></i> Todos los derechos reservados.</p> 
+        </div>
+    </footer>
+    
+    <script src="styles_VE.js"></script>
+</body>
+</html>
