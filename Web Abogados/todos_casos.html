@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Abogado - Todos los Casos</title>
+    <link rel="stylesheet" href="todos_casos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Bufete Legal</div>
+        <div class="user-info">
+            <span>Dr. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <sidebar>
+            <div class="user-profile">
+                <h3>Panel de Abogado</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="dashboard-abogado.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#"><i class="fas fa-briefcase"></i> Mis Casos</a></li>
+                <li><a href="#" class="active"><i class="fas fa-list-ol"></i> Todos los Casos</a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+            </ul>
+        </sidebar>
+        
+        <main>
+            <div class="page-header">
+                <h1 class="page-title">Gestión de Todos los Casos</h1>
+                <button id="new-case-btn" class="primary-btn"><i class="fas fa-plus"></i> Nuevo Caso</button>
+            </div>
+            
+            <div class="filters-container extended">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="status-filter">Estado:</label>
+                        <select id="status-filter" class="filter-select">
+                            <option value="all">Todos los estados</option>
+                            <option value="pending">Pendiente</option>
+                            <option value="in-progress">En proceso</option>
+                            <option value="resolved">Resuelto</option>
+                            <option value="canceled">Cancelado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="type-filter">Tipo de caso:</label>
+                        <select id="type-filter" class="filter-select">
+                            <option value="all">Todos los tipos</option>
+                            <option value="divorce">Divorcio</option>
+                            <option value="contract">Contrato</option>
+                            <option value="inheritance">Herencia</option>
+                            <option value="accident">Accidente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="lawyer-filter">Abogado:</label>
+                        <select id="lawyer-filter" class="filter-select">
+                            <option value="all">Todos los abogados</option>
+                            <option value="1">Juan Pérez</option>
+                            <option value="2">María García</option>
+                            <option value="3">Carlos López</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="date-from">Desde:</label>
+                        <input type="date" id="date-from" class="filter-date">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-to">Hasta:</label>
+                        <input type="date" id="date-to" class="filter-date">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="search">Buscar:</label>
+                        <input type="text" id="search" class="filter-search" placeholder="ID, cliente o palabras clave">
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="apply-filters" class="filter-btn apply">Aplicar filtros</button>
+                        <button id="clear-filters" class="filter-btn clear">Limpiar filtros</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cases-summary">
+                <div class="summary-item">Total: <span id="total-cases">0</span></div>
+                <div class="summary-item">En proceso: <span id="in-progress-cases">0</span></div>
+                <div class="summary-item">Pendientes: <span id="pending-cases">0</span></div>
+                <div class="summary-item">Resueltos: <span id="resolved-cases">0</span></div>
+                <div class="summary-item">Cancelados: <span id="canceled-cases">0</span></div>
+            </div>
+            
+            <div class="dashboard">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <h3>Casos por Estado</h3>
+                        <div id="status-chart" class="chart">
+                            [Gráfico de casos por estado]
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Casos por Tipo</h3>
+                        <div id="type-chart" class="chart">
+                            [Gráfico de casos por tipo]
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="all-cases-list">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="id">ID Caso <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="client">Cliente <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="type">Tipo <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="date">Fecha <i class="fas fa-sort"></i></th>
+                            <th>Estado</th>
+                            <th>Abogado Asignado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cases-body">
+                        <tr>
+                            <td>#2023-001</td>
+                            <td>María González</td>
+                            <td>Divorcio</td>
+                            <td>15/05/2023</td>
+                            <td><span class="status-badge status-in-progress">En proceso</span></td>
+                            <td>Juan Pérez</td>
+                            <td>
+                                <button class="action-btn view-btn"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="action-btn edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="action-btn assign-btn"><i class="fas fa-user-tag"></i> Asignar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2023-002</td>
+                            <td>Carlos Mendoza</td>
+                            <td>Contrato</td>
+                            <td>22/05/2023</td>
+                            <td><span class="status-badge status-pending">Pendiente</span></td>
+                            <td>María García</td>
+                            <td>
+                                <button class="action-btn view-btn"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="action-btn edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="action-btn assign-btn"><i class="fas fa-user-tag"></i> Asignar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2023-003</td>
+                            <td>Laura Jiménez</td>
+                            <td>Herencia</td>
+                            <td>30/05/2023</td>
+                            <td><span class="status-badge status-resolved">Resuelto</span></td>
+                            <td>Carlos López</td>
+                            <td>
+                                <button class="action-btn view-btn"><i class="fas fa-eye"></i> Ver</button>
+                                <button class="action-btn edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="action-btn assign-btn"><i class="fas fa-user-tag"></i> Asignar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Página 1 de 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                    <select id="page-size">
+                        <option value="10">10 por página</option>
+                        <option value="20">20 por página</option>
+                        <option value="50">50 por página</option>
+                    </select>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="todos_casos.js"></script>
+</body>
+</html>

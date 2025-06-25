@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bufete Legal - Facturación Electrónica</title>
+    <link rel="stylesheet" href="assets/css/Fact_Elec.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-balance-scale"></i>
+                <h1>Bufete Legal</h1>
+            </div>
+            <h2>Facturación Electrónica</h2>
+        </header>
+
+        <div class="content">
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li class="active"><a href="#"><i class="fas fa-file-invoice"></i> Nueva Factura</a></li>
+                        <li><a href="#"><i class="fas fa-history"></i> Historial</a></li>
+                        <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="main-content">
+                <div class="form-container">
+                    <form id="invoiceForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user-tie"></i> Datos del Cliente</h3>
+                            <div class="form-group">
+                                <label for="clientSelect">Seleccionar Cliente:</label>
+                                <select id="clientSelect" class="form-control">
+                                    <option value="">-- Seleccione un cliente --</option>
+                                    <!-- Opciones se llenarán con JS -->
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="clientName">Nombre:</label>
+                                    <input type="text" id="clientName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clientId">Identificación:</label>
+                                    <input type="text" id="clientId" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="clientEmail">Correo Electrónico:</label>
+                                <input type="email" id="clientEmail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="clientAddress">Dirección:</label>
+                                <textarea id="clientAddress" class="form-control" rows="2" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-gavel"></i> Servicios Prestados</h3>
+                            <div class="services-container" id="servicesContainer">
+                                <div class="service-item">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <input type="text" class="form-control service-description" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cantidad</label>
+                                            <input type="number" class="form-control service-quantity" min="1" value="1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Precio Unitario ($)</label>
+                                            <input type="number" class="form-control service-price" min="0" step="0.01" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Total ($)</label>
+                                            <input type="text" class="form-control service-total" readonly>
+                                        </div>
+                                        <button type="button" class="btn btn-remove-service"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="addService" class="btn btn-secondary"><i class="fas fa-plus"></i> Agregar Servicio</button>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-file-invoice-dollar"></i> Resumen de Factura</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="invoiceNumber">Número de Factura:</label>
+                                    <input type="text" id="invoiceNumber" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="invoiceDate">Fecha:</label>
+                                    <input type="date" id="invoiceDate" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="summary-container">
+                                <div class="summary-item">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal">$0.00</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>ITBMS (7%):</span>
+                                    <span id="tax">$0.00</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total:</span>
+                                    <span id="total">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" id="previewBtn" class="btn btn-primary"><i class="fas fa-eye"></i> Vista Previa</button>
+                            <button type="button" id="saveBtn" class="btn btn-success"><i class="fas fa-save"></i> Guardar Factura</button>
+                            <button type="button" id="sendEmailBtn" class="btn btn-info"><i class="fas fa-envelope"></i> Enviar por Correo</button>
+                            <button type="button" id="generatePdfBtn" class="btn btn-warning"><i class="fas fa-file-pdf"></i> Generar PDF</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para vista previa -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="invoicePreview"></div>
+            <div class="modal-actions">
+                <button id="printPreview" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir</button>
+                <button id="closePreview" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/Fact_Elec.js"></script>
+</body>
+</html>

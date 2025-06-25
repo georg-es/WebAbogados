@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del Cliente</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .panel-section {
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .panel-section h3 {
+      margin-top: 0;
+      color: #34495e;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #2980b9;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .btn:hover {
+      background-color: #1c5980;
+    }
+    .logout {
+      text-align: right;
+      margin-top: -50px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-user"></i> Panel del Cliente</h1>
+  <div class="logout">
+    <button onclick="cerrarSesion()" class="btn">Cerrar sesión</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel-section">
+    <h3><i class="fas fa-file-alt"></i> Mis Solicitudes</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Servicio</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Documento</th>
+        </tr>
+      </thead>
+      <tbody id="tablaSolicitudes">
+        <tr>
+          <td>Derecho Familiar</td>
+          <td>2024-06-04</td>
+          <td>Pendiente</td>
+          <td><a href="#">Ver</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel-section">
+    <h3><i class="fas fa-plus-circle"></i> Crear nueva solicitud</h3>
+    <a href="solicitar-servicio.html" class="btn">Ir al formulario</a>
+  </section>
+</main>
+
+<script>
+  function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    window.location.href = "index.html";
+  }
+
+  // Protección del acceso
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  if (!usuario || usuario.rol !== "cliente") {
+    alert("Acceso no autorizado");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

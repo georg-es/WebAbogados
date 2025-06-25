@@ -1,0 +1,13 @@
+<a href="#" onclick="redirigirASolicitud()">Solicitar servicio</a>
+
+<script>
+  function redirigirASolicitud() {
+    const user = localStorage.getItem("usuario");
+    if (!user) {
+      alert("Debes iniciar sesión para continuar.");
+      window.location.href = "login.html";
+    } else {
+      window.location.href = "solicitar-servicio.html";
+    }
+  }
+</script>
