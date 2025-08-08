@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Abogado - Bufete Legal</title>
+    <link rel="stylesheet" href="assets/css/panel_abogado.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Bufete Legal</div>
+        <div class="user-info">
+            <span>Dr. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <sidebar>
+            <div class="user-profile">
+                <h3>Panel de Abogado</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="todos_casos.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="finanzas.html" class="active"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
+                <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+
+            </ul>
+        </sidebar>
+        
+        <main>
+            <div class="page-header">
+                <h1 class="page-title">Solicitudes Legales Asignadas</h1>
+                <select class="status-filter">
+                    <option value="all">Todos los estados</option>
+                    <option value="pending">Pendientes</option>
+                    <option value="in-progress">En proceso</option>
+                    <option value="resolved">Resueltos</option>
+                </select>
+            </div>
+            
+            <div class="filters-container">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="status-filter">Estado:</label>
+                        <select id="status-filter" class="filter-select">
+                            <option value="all">Todos los estados</option>
+                            <option value="pending">Pendiente</option>
+                            <option value="in-progress">En proceso</option>
+                            <option value="resolved">Resuelto</option>
+                            <option value="canceled">Cancelado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="type-filter">Tipo de caso:</label>
+                        <select id="type-filter" class="filter-select">
+                            <option value="all">Todos los tipos</option>
+                            <option value="divorce">Divorcio</option>
+                            <option value="contract">Contrato</option>
+                            <option value="inheritance">Herencia</option>
+                            <option value="accident">Accidente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-from">Desde:</label>
+                        <input type="date" id="date-from" class="filter-date">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-to">Hasta:</label>
+                        <input type="date" id="date-to" class="filter-date">
+                    </div>
+                </div>
+                
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="search">Buscar:</label>
+                        <input type="text" id="search" class="filter-search" placeholder="ID, cliente o palabras clave">
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="apply-filters" class="filter-btn apply">Aplicar filtros</button>
+                        <button id="clear-filters" class="filter-btn clear">Limpiar filtros</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cases-summary">
+                <div class="summary-item">Total: <span id="total-cases">0</span></div>
+                <div class="summary-item">En proceso: <span id="in-progress-cases">0</span></div>
+                <div class="summary-item">Pendientes: <span id="pending-cases">0</span></div>
+                <div class="summary-item">Resueltos: <span id="resolved-cases">0</span></div>
+            </div>
+            
+            <div class="requests-container">
+                <table class="requests-list">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="id">ID Caso <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="client">Cliente <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="type">Tipo <i class="fas fa-sort"></i></th>
+                            <th class="sortable" data-sort="date">Fecha <i class="fas fa-sort"></i></th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cases-body">
+                        <!-- Los casos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Página 1 de 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                    <select id="page-size">
+                        <option value="10">10 por página</option>
+                        <option value="20">20 por página</option>
+                        <option value="50">50 por página</option>
+                    </select>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal para ver detalles de la solicitud -->
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalles de la Solicitud <span id="modal-case-id"></span></h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="request-details">
+                    <div class="detail-row">
+                        <div class="detail-label">Cliente:</div>
+                        <div class="detail-value" id="modal-client"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Tipo de caso:</div>
+                        <div class="detail-value" id="modal-case-type"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Fecha de creación:</div>
+                        <div class="detail-value" id="modal-creation-date"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Estado:</div>
+                        <div class="detail-value" id="modal-status"></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Descripción:</div>
+                        <div class="detail-value" id="modal-description"></div>
+                    </div>
+                </div>
+                
+                <div class="documents-section">
+                    <h3>Documentos adjuntos</h3>
+                    <ul class="document-list" id="modal-documents">
+                        <!-- Los documentos se cargarán dinámicamente -->
+                    </ul>
+                </div>
+                
+                <div class="upload-section">
+                    <h3>Subir documentos</h3>
+                    <input type="file" id="documentUpload" multiple>
+                    <button class="upload-btn" id="upload-document-btn"><i class="fas fa-upload"></i> Subir Documento</button>
+                    <div class="upload-progress" id="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-bar"></div>
+                        </div>
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+                
+                <div class="status-section">
+                    <h3>Cambiar estado del caso</h3>
+                    <select class="status-select" id="status-select">
+                        <option value="pending">Pendiente</option>
+                        <option value="in-progress">En proceso</option>
+                        <option value="resolved">Resuelto</option>
+                        <option value="canceled">Cancelado</option>
+                    </select>
+                    <button class="save-status-btn" id="save-status-btn"><i class="fas fa-save"></i> Guardar Estado</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/panel_abogado.js"></script>
+</body>
+</html>
