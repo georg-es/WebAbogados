@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración de Notificaciones</title>
+    <link rel="stylesheet" href="assets/css/config_notific.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="header">
+            <h1><i class="fas fa-bell"></i> Configuración de Notificaciones</h1>
+            <p>Personaliza cómo y cuándo recibir notificaciones por correo electrónico</p>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Configuración general -->
+            <section class="settings-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> Configuración General</h2>
+                </div>
+                
+                <div class="toggle-group">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="global-notifications" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="toggle-label">Notificaciones por correo electrónico activadas</span>
+                </div>
+                
+                <div class="email-preview">
+                    <h3>Correo electrónico de notificación:</h3>
+                    <p id="client-email">jorge.guerra@example.com</p>
+                    <button class="btn btn-outline">Cambiar correo electrónico</button>
+                </div>
+            </section>
+
+            <!-- Tipos de notificaciones -->
+            <section class="settings-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-envelope"></i> Tipos de Notificación</h2>
+                </div>
+                
+                <div class="notification-types">
+                    <!-- Notificación de apertura de caso -->
+                    <div class="notification-item">
+                        <div class="notification-header">
+                            <div class="toggle-group">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="case-opened-notification" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <span class="toggle-label">Cuando se abre un nuevo caso</span>
+                            </div>
+                            <button class="btn btn-outline btn-sm edit-template-btn" data-template="case-opened">
+                                <i class="fas fa-edit"></i> Editar plantilla
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Notificación de documento subido -->
+                    <div class="notification-item">
+                        <div class="notification-header">
+                            <div class="toggle-group">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="document-uploaded-notification" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <span class="toggle-label">Cuando se sube un documento</span>
+                            </div>
+                            <button class="btn btn-outline btn-sm edit-template-btn" data-template="document-uploaded">
+                                <i class="fas fa-edit"></i> Editar plantilla
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Recordatorio de pago -->
+                    <div class="notification-item">
+                        <div class="notification-header">
+                            <div class="toggle-group">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="payment-reminder-notification" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <span class="toggle-label">Recordatorio de pago antes del vencimiento</span>
+                            </div>
+                            <button class="btn btn-outline btn-sm edit-template-btn" data-template="payment-reminder">
+                                <i class="fas fa-edit"></i> Editar plantilla
+                            </button>
+                        </div>
+                        <div class="reminder-options">
+                            <label>Recordar con:</label>
+                            <div class="reminder-days">
+                                <label><input type="checkbox" checked> 7 días antes</label>
+                                <label><input type="checkbox" checked> 3 días antes</label>
+                                <label><input type="checkbox"> 1 día antes</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Variables disponibles -->
+            <section class="settings-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-code"></i> Variables Disponibles</h2>
+                </div>
+                
+                <div class="variables-grid">
+                    <div class="variable-item">
+                        <code>{{nombre}}</code>
+                        <span>Nombre completo del cliente</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{nro_caso}}</code>
+                        <span>Número de caso/referencia</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{tipo_caso}}</code>
+                        <span>Tipo de caso (Divorcio, Penal, etc.)</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{fecha}}</code>
+                        <span>Fecha del evento</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{documento}}</code>
+                        <span>Nombre del documento subido</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{monto}}</code>
+                        <span>Monto a pagar</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{fecha_vencimiento}}</code>
+                        <span>Fecha de vencimiento del pago</span>
+                    </div>
+                    <div class="variable-item">
+                        <code>{{enlace_portal}}</code>
+                        <span>Enlace al portal del cliente</span>
+                    </div>
+                </div>
+                
+                <div class="variables-note">
+                    <p><i class="fas fa-info-circle"></i> Estas variables se reemplazarán automáticamente con los datos reales cuando se envíe la notificación.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de edición de plantilla -->
+    <div id="template-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Editar Plantilla de Notificación</h2>
+            
+            <form id="template-form">
+                <input type="hidden" id="template-type">
+                
+                <div class="form-group">
+                    <label for="template-subject">Asunto</label>
+                    <input type="text" id="template-subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="template-body">Cuerpo del mensaje</label>
+                    <textarea id="template-body" rows="8" required></textarea>
+                    <div class="text-editor-toolbar">
+                        <button type="button" class="btn-text-format" data-format="bold"><i class="fas fa-bold"></i></button>
+                        <button type="button" class="btn-text-format" data-format="italic"><i class="fas fa-italic"></i></button>
+                        <button type="button" class="btn-text-format" data-format="ul"><i class="fas fa-list-ul"></i></button>
+                        <button type="button" class="btn-text-format" data-format="ol"><i class="fas fa-list-ol"></i></button>
+                        <button type="button" class="btn-text-format" data-format="link"><i class="fas fa-link"></i></button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="template-signature">Firma institucional</label>
+                    <textarea id="template-signature" rows="3"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="preview-btn">Vista Previa</button>
+                    <button type="submit" class="btn btn-primary">Guardar Plantilla</button>
+                </div>
+            </form>
+            
+            <div id="preview-section" style="display: none;">
+                <h3>Vista Previa del Correo</h3>
+                <div class="email-preview-content">
+                    <div class="email-header">
+                        <strong>Asunto:</strong> <span id="preview-subject"></span>
+                    </div>
+                    <div class="email-body" id="preview-body"></div>
+                    <div class="email-signature" id="preview-signature"></div>
+                </div>
+                <button type="button" class="btn btn-outline" id="back-to-edit">Volver a editar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/config_notific.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas por Pagar - Bufete Legal</title>
+    <link rel="stylesheet" href="assets/css/cxp.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <div class="header-content">
+                <h1><i class="fas fa-money-bill-wave"></i> Cuentas por Pagar</h1>
+                <p>Control de deudas y obligaciones del bufete</p>
+            </div>
+            <button class="btn btn-primary" id="btnNuevaCuenta">
+                <i class="fas fa-plus"></i> Nueva Cuenta
+            </button>
+        </header>
+
+        <!-- Filtros y Búsqueda -->
+        <div class="filters-section">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar por proveedor o concepto...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="pendiente">Pendientes</button>
+                <button class="filter-btn" data-filter="pagado">Pagadas</button>
+                <button class="filter-btn" data-filter="vencidas">Vencidas</button>
+            </div>
+        </div>
+
+        <!-- Resumen -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="card-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="totalPendientes">$0.00</h3>
+                    <p>Pendientes</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="card-icon overdue">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="totalVencidas">$0.00</h3>
+                    <p>Vencidas</p>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="card-icon paid">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3 id="totalPagadas">$0.00</h3>
+                    <p>Pagadas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Cuentas -->
+        <div class="table-container">
+            <table class="accounts-table">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Concepto</th>
+                        <th>Monto</th>
+                        <th>Vencimiento</th>
+                        <th>Estado</th>
+                        <th>Fecha Programada</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="accountsTableBody">
+                    <!-- Las filas se generarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal para Nueva/Editar Cuenta -->
+        <div id="accountModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Nueva Cuenta por Pagar</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <form id="accountForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="proveedor">Proveedor *</label>
+                            <input type="text" id="proveedor" name="proveedor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="concepto">Concepto *</label>
+                            <input type="text" id="concepto" name="concepto" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="monto">Monto *</label>
+                            <input type="number" id="monto" name="monto" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vencimiento">Fecha de Vencimiento *</label>
+                            <input type="date" id="vencimiento" name="vencimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaProgramada">Fecha Programada</label>
+                            <input type="date" id="fechaProgramada" name="fechaProgramada">
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select id="estado" name="estado">
+                                <option value="pendiente">Pendiente</option>
+                                <option value="pagado">Pagado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="notas">Notas</label>
+                        <textarea id="notas" name="notas" rows="3"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmación -->
+        <div id="confirmModal" class="modal">
+            <div class="modal-content small">
+                <div class="modal-header">
+                    <h2>Confirmar Acción</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <p id="confirmMessage">¿Está seguro de realizar esta acción?</p>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="btnConfirmCancel">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmAction">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notificaciones -->
+        <div id="notifications" class="notifications"></div>
+    </div>
+
+    <script src="assets/js/cxp.js"></script>
+</body>
+</html>

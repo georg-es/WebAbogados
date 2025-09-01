@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuLegal - Gestión Documental Inteligente</title>
+    
+    <link rel="stylesheet" href="assets/css/documentacion.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Bufete Legal</div>
+        <div class="user-info">
+            <span>Dr. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <sidebar>
+            <div class="user-profile">
+                <h3>Panel de Abogado</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="panel_abogado.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="finanzas.html"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
+                <li><a href="documentacion.html" class="active"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+            </ul>
+        </sidebar>
+        
+        <main>
+            <h1 class="main-title">Gestión Documental Inteligente</h1>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="upload">Cargar Documentos</div>
+                <div class="tab" data-tab="templates">Plantillas</div>
+                <div class="tab" data-tab="history">Historial</div>
+            </div>
+            
+            <div class="tab-content active" id="upload-tab">
+                <div class="upload-area" id="dropZone">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Arrastra y suelta tus documentos aquí</h3>
+                    <p>o haz clic para seleccionar archivos</p>
+                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display: none;">
+                </div>
+                
+                <div class="ocr-progress" id="ocrProgress">
+                    <p>Analizando documento...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">Extrayendo texto...</p>
+                </div>
+                
+                <div class="document-preview" id="documentPreview" style="display: none;">
+                    <div class="document-viewer">
+                        <i class="fas fa-file-pdf fa-5x" style="color: #d93025;"></i>
+                        <canvas id="pdfViewer" style="display: none; max-width: 100%; max-height: 100%;"></canvas>
+                        <img id="imageViewer" style="display: none; max-width: 100%; max-height: 100%;">
+                    </div>
+                    <div class="document-info">
+                        <h2>Información Extraída</h2>
+                        <p class="document-name" id="documentName"></p>
+                        
+                        <div class="field-group">
+                            <h3>Datos del Documento</h3>
+                            
+                            <div class="form-field">
+                                <label for="docType">Tipo de Documento:</label>
+                                <select id="docType">
+                                    <option value="">Seleccionar tipo</option>
+                                    <option value="contract">Contrato</option>
+                                    <option value="complaint">Demanda</option>
+                                    <option value="motion">Escrito Judicial</option>
+                                    <option value="id">Identificación</option>
+                                    <option value="proof">Prueba</option>
+                                    <option value="other">Otro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="docDate">Fecha del Documento:</label>
+                                <input type="date" id="docDate">
+                                <span class="extracted-value high-confidence" id="extractedDate" style="display: none;">15/06/2023</span>
+                            </div>
+                        </div>
+                        
+                        <div class="field-group">
+                            <h3>Partes Involucradas</h3>
+                            
+                            <div class="form-field">
+                                <label for="clientName">Nombre del Cliente:</label>
+                                <input type="text" id="clientName" placeholder="Ej: Juan Pérez López">
+                                <span class="extracted-value high-confidence" id="extractedClient" style="display: none;">María González Rodríguez</span>
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="clientId">Identificación del Cliente:</label>
+                                <input type="text" id="clientId" placeholder="Ej: X-1234567-A">
+                                <span class="extracted-value medium-confidence" id="extractedClientId" style="display: none;">Y-7654321-B</span>
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="counterpart">Contraparte:</label>
+                                <input type="text" id="counterpart" placeholder="Nombre de la contraparte">
+                                <span class="extracted-value low-confidence" id="extractedCounterpart" style="display: none;">Empresa Constructora S.A.</span>
+                            </div>
+                        </div>
+                        
+                        <div class="field-group">
+                            <h3>Detalles del Caso</h3>
+                            
+                            <div class="form-field">
+                                <label for="caseNumber">Número de Caso:</label>
+                                <input type="text" id="caseNumber" placeholder="Ej: 2023-001">
+                                <span class="extracted-value high-confidence" id="extractedCaseNumber" style="display: none;">2023-045</span>
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="caseType">Tipo de Caso:</label>
+                                <select id="caseType">
+                                    <option value="">Seleccionar tipo</option>
+                                    <option value="divorce">Divorcio</option>
+                                    <option value="contract">Contrato</option>
+                                    <option value="laboral">Laboral</option>
+                                    <option value="penal">Penal</option>
+                                    <option value="civil">Civil</option>
+                                    <option value="other">Otro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="caseDescription">Resumen:</label>
+                                <textarea id="caseDescription" placeholder="Breve descripción del contenido del documento"></textarea>
+                                <span class="extracted-value" id="extractedSummary" style="display: none;">Contrato de arrendamiento por 12 meses para propiedad ubicada en Calle Principal #123</span>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-outline" id="cancelBtn">Cancelar</button>
+                            <button class="btn btn-primary" id="saveBtn">Guardar Documento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="templates-tab">
+                <h2>Plantillas de Documentos</h2>
+                <p>Selecciona una plantilla para crear un nuevo documento estructurado</p>
+                
+                <div class="template-selector">
+                    <div class="template-card active">
+                        <div class="template-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3>Contrato de Arrendamiento</h3>
+                        <p>Plantilla estándar para contratos de alquiler</p>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h3>Demanda de Divorcio</h3>
+                        <p>Modelo para iniciar proceso de divorcio</p>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Acuerdo Extrajudicial</h3>
+                        <p>Plantilla para acuerdos entre partes</p>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Poder Notarial</h3>
+                        <p>Modelo de poder general o especial</p>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3>Nueva Plantilla</h3>
+                        <p>Crear una plantilla personalizada</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="history-tab">
+                <h2>Documentos Procesados</h2>
+                <p>Historial de documentos analizados y gestionados</p>
+                
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem;">
+                    <thead>
+                        <tr style="background-color: var(--primary-color); color: white;">
+                            <th style="padding: 1rem; text-align: left;">Documento</th>
+                            <th style="padding: 1rem; text-align: left;">Tipo</th>
+                            <th style="padding: 1rem; text-align: left;">Cliente</th>
+                            <th style="padding: 1rem; text-align: left;">Caso</th>
+                            <th style="padding: 1rem; text-align: left;">Fecha</th>
+                            <th style="padding: 1rem; text-align: left;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 1rem;">Contrato_arrendamiento.pdf</td>
+                            <td style="padding: 1rem;">Contrato</td>
+                            <td style="padding: 1rem;">María González</td>
+                            <td style="padding: 1rem;">2023-045</td>
+                            <td style="padding: 1rem;">15/06/2023</td>
+                            <td style="padding: 1rem;">
+                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 1rem;">Demanda_divorcio.docx</td>
+                            <td style="padding: 1rem;">Demanda</td>
+                            <td style="padding: 1rem;">Carlos Mendoza</td>
+                            <td style="padding: 1rem;">2023-032</td>
+                            <td style="padding: 1rem;">10/06/2023</td>
+                            <td style="padding: 1rem;">
+                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="assets/js/documentacion.js"></script>
+</body>
+</html>

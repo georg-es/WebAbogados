@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal del Cliente - Despacho Legal</title>
+    <link rel="stylesheet" href="cliente.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="header">
+            <div class="logo">
+                <img src="https://via.placeholder.com/150x50?text=Logo+Despacho" alt="Logo del Despacho">
+            </div>
+            <div class="user-info">
+                <span id="username">Bienvenido, Jorge Guerra</span>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </header>
+
+        <!-- Menú de navegación -->
+        <nav class="sidebar">
+            <ul>
+                <li class="active"><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#solicitudes"><i class="fas fa-file-alt"></i> Mis Solicitudes</a></li>
+                <li><a href="#documentos"><i class="fas fa-folder"></i> Mis Documentos</a></li>
+                <li><a href="#pagos"><i class="fas fa-credit-card"></i> Estado de Pagos</a></li>
+                <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                <li class="logout"><a href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1>Panel del Cliente</h1>
+            
+            <!-- Resumen del cliente -->
+            <section class="dashboard-cards">
+                <div class="card" onclick="navigateTo('solicitudes')">
+                    <div class="card-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Solicitudes activas</h3>
+                    <p id="casos-activos">3 casos en curso</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('solicitudes?filter=cerrados')">
+                    <div class="card-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Casos cerrados</h3>
+                    <p id="casos-cerrados">5 resueltos con éxito</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('documentos')">
+                    <div class="card-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h3>Documentos subidos</h3>
+                    <p id="documentos-subidos">12 archivos disponibles</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('pagos')">
+                    <div class="card-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Pagos pendientes</h3>
+                    <p id="pagos-pendientes">1 pago pendiente</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Último acceso</h3>
+                    <p id="ultimo-acceso">27 de junio, 2025</p>
+                </div>
+            </section>
+
+            <!-- Sección de solicitudes -->
+            <section id="solicitudes" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-alt"></i> Mis Solicitudes</h2>
+                    <button class="btn-primary" onclick="showNewRequestForm()">
+                        <i class="fas fa-plus"></i> Nueva Solicitud
+                    </button>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Número de caso</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Fecha de apertura</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="solicitudes-table">
+                        <!-- Datos cargados dinámicamente por JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sección de documentos -->
+            <section id="documentos" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-folder"></i> Mis Documentos</h2>
+                    <div class="upload-btn-wrapper">
+                        <button class="btn-primary"><i class="fas fa-upload"></i> Subir Documento</button>
+                        <input type="file" id="document-upload" multiple />
+                    </div>
+                </div>
+                
+                <div class="document-filters">
+                    <select id="document-filter">
+                        <option value="all">Todos los casos</option>
+                        <option value="case-1">Caso DIV-2025-001</option>
+                        <option value="case-2">Caso MIG-2025-015</option>
+                    </select>
+                </div>
+                
+                <div class="document-list" id="document-list">
+                    <!-- Documentos cargados dinámicamente por JavaScript -->
+                </div>
+            </section>
+
+            <!-- Sección de pagos -->
+            <section id="pagos" class="content-section">
+                <h2><i class="fas fa-credit-card"></i> Estado de Pagos</h2>
+                
+                <div class="payment-summary">
+                    <div class="summary-card">
+                        <h3>Total Pagado</h3>
+                        <p class="amount paid">$4,750.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Pendiente por Pagar</h3>
+                        <p class="amount pending">$1,200.00</p>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Monto</th>
+                            <th>Fecha límite</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagos-table">
+                        <!-- Datos cargados dinámicamente por JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sección de contacto -->
+            <section id="contacto" class="content-section">
+                <h2><i class="fas fa-envelope"></i> Contacto / Soporte</h2>
+                
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <label for="contact-subject">Asunto</label>
+                        <select id="contact-subject" required>
+                            <option value="">Seleccione un asunto</option>
+                            <option value="consulta">Consulta sobre mi caso</option>
+                            <option value="documentos">Problema con documentos</option>
+                            <option value="pagos">Consulta sobre pagos</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message">Mensaje</label>
+                        <textarea id="contact-message" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i> Enviar Mensaje
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="contact-success" class="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo en un plazo máximo de 24 horas.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para nueva solicitud -->
+    <div id="new-request-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('new-request-modal')">&times;</span>
+            <h2>Nueva Solicitud Legal</h2>
+            
+            <form id="new-request-form">
+                <div class="form-group">
+                    <label for="request-type">Tipo de Solicitud</label>
+                    <select id="request-type" required>
+                        <option value="">Seleccione un tipo</option>
+                        <option value="divorcio">Divorcio</option>
+                        <option value="migracion">Migración</option>
+                        <option value="penal">Penal</option>
+                        <option value="laboral">Laboral</option>
+                        <option value="civil">Civil</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="request-description">Descripción</label>
+                    <textarea id="request-description" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="cliente.js"></script>
+</body>
+</html>

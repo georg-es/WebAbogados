@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Egresos</title>
+    <link rel="stylesheet" href="assets/css/gestion_egresos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="expenses-container">
+        <header class="expenses-header">
+            <h1><i class="fas fa-money-bill-wave"></i> Gestión de Egresos</h1>
+            <div class="header-actions">
+                <button id="new-expense-btn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Egreso
+                </button>
+            </div>
+        </header>
+
+        <div class="expenses-content">
+            <!-- Filtros -->
+            <section class="filters-section">
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <h3><i class="fas fa-filter"></i> Filtros</h3>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="month-filter">Mes</label>
+                                <select id="month-filter">
+                                    <option value="">Todos los meses</option>
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="year-filter">Año</label>
+                                <select id="year-filter">
+                                    <!-- Opciones se cargarán dinámicamente -->
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="category-filter">Categoría</label>
+                                <select id="category-filter">
+                                    <option value="">Todas las categorías</option>
+                                    <option value="rent">Alquiler</option>
+                                    <option value="services">Servicios</option>
+                                    <option value="salaries">Sueldos</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="technology">Tecnología</option>
+                                    <option value="unexpected">Imprevistos</option>
+                                    <option value="other">Otros</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="amount-range">Rango de montos</label>
+                                <select id="amount-range">
+                                    <option value="">Todos</option>
+                                    <option value="0-1000">$0 - $1,000</option>
+                                    <option value="1001-5000">$1,001 - $5,000</option>
+                                    <option value="5001-10000">$5,001 - $10,000</option>
+                                    <option value="10001">Más de $10,000</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="date-from">Desde</label>
+                                <input type="date" id="date-from" class="date-input">
+                            </div>
+                            <div class="filter-group">
+                                <label for="date-to">Hasta</label>
+                                <input type="date" id="date-to" class="date-input">
+                            </div>
+                            <div class="filter-group">
+                                <button id="apply-filters" class="btn-secondary">
+                                    <i class="fas fa-filter"></i> Aplicar
+                                </button>
+                                <button id="reset-filters" class="btn-text">
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resumen por categoría -->
+            <section class="summary-section">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <h3><i class="fas fa-chart-pie"></i> Resumen por Categoría</h3>
+                        <div id="summary-period">Mostrando todos los egresos</div>
+                    </div>
+                    <div class="summary-body">
+                        <div class="chart-container">
+                            <canvas id="category-chart"></canvas>
+                        </div>
+                        <div class="category-totals" id="category-totals">
+                            <!-- Totales por categoría se cargarán aquí -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lista de egresos -->
+            <section class="expenses-list-section">
+                <div class="expenses-list-card">
+                    <div class="list-header">
+                        <h3><i class="fas fa-list"></i> Registro de Egresos</h3>
+                        <div class="list-actions">
+                            <button id="export-excel" class="btn-icon" title="Exportar a Excel">
+                                <i class="fas fa-file-excel"></i>
+                            </button>
+                            <button id="export-pdf" class="btn-icon" title="Exportar a PDF">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="list-body">
+                        <table class="expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Categoría</th>
+                                    <th>Monto</th>
+                                    <th>Comprobante</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenses-list">
+                                <!-- Los egresos se cargarán dinámicamente aquí -->
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                            <span id="page-info">Página 1 de 1</span>
+                            <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal para nuevo/editar egreso -->
+    <div id="expense-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Nuevo Egreso</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="expense-form">
+                    <input type="hidden" id="expense-id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expense-date">Fecha *</label>
+                            <input type="date" id="expense-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-category">Categoría *</label>
+                            <select id="expense-category" required>
+                                <option value="">Seleccionar categoría...</option>
+                                <option value="rent">Alquiler</option>
+                                <option value="services">Servicios</option>
+                                <option value="salaries">Sueldos</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="technology">Tecnología</option>
+                                <option value="unexpected">Imprevistos</option>
+                                <option value="other">Otros</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expense-description">Descripción *</label>
+                            <input type="text" id="expense-description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-amount">Monto *</label>
+                            <input type="number" id="expense-amount" min="0.01" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense-receipt">Comprobante</label>
+                        <div class="file-upload">
+                            <input type="file" id="expense-receipt" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="expense-receipt" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span id="file-name">Seleccionar archivo...</span>
+                            </label>
+                        </div>
+                        <div id="receipt-preview" class="receipt-preview"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense-notes">Notas</label>
+                        <textarea id="expense-notes" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary close-modal-btn">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar Egreso</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-header">
+                <h3>Confirmar Acción</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">¿Estás seguro que deseas realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary cancel-action">Cancelar</button>
+                <button type="button" class="btn-danger confirm-action">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para visualizar comprobante -->
+    <div id="receipt-modal" class="modal">
+        <div class="modal-content receipt-modal">
+            <div class="modal-header">
+                <h3>Comprobante de Egreso</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="receipt-content">
+                    <!-- El contenido del comprobante se cargará aquí -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary close-modal-btn">Cerrar</button>
+                <button type="button" id="download-receipt" class="btn-primary">
+                    <i class="fas fa-download"></i> Descargar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts/expenses.js"></script>
+</body>
+</html>

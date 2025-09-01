@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Contable</title>
+    
+    <link rel="stylesheet" href="assets/css/analytics.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Bufete Legal</div>
+        <div class="user-info">
+            <span>Lic. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="user-profile">
+                <h3>Dashboard</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="panel_abogado.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="finanzas.html" class="active"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
+                <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <div class="dashboard-container">
+                <header class="dashboard-header">
+                    <h1><i class="fas fa-chart-line"></i> Dashboard Contable</h1>
+                    <div class="header-actions">
+                        <div class="date-filter">
+                            <label for="date-range">Rango:</label>
+                            <select id="date-range">
+                                <option value="today">Hoy</option>
+                                <option value="week">Esta semana</option>
+                                <option value="month" selected>Este mes</option>
+                                <option value="quarter">Este trimestre</option>
+                                <option value="year">Este año</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                            <div id="custom-range" style="display: none;">
+                                <input type="date" id="start-date">
+                                <span>a</span>
+                                <input type="date" id="end-date">
+                            </div>
+                        </div>
+                        <button id="refresh-btn"><i class="fas fa-sync-alt"></i> Actualizar</button>
+                    </div>
+                </header>
+                
+                <div class="dashboard-content">
+                    <section class="financial-summary">
+                        <div class="summary-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-wallet"></i> Saldos Disponibles</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="balance-item">
+                                    <span class="balance-label">Cuenta Corriente:</span>
+                                    <span class="balance-amount" id="current-account">$0.00</span>
+                                </div>
+                                <div class="balance-item">
+                                    <span class="balance-label">Cuenta Ahorros:</span>
+                                    <span class="balance-amount" id="savings-account">$0.00</span>
+                                </div>
+                                <div class="balance-item total">
+                                    <span class="balance-label">Total Disponible:</span>
+                                    <span class="balance-amount" id="total-balance">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-exchange-alt"></i> Flujo de Caja</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="cashflow-item income">
+                                    <span class="cashflow-label">Ingresos:</span>
+                                    <span class="cashflow-amount" id="total-income">$0.00</span>
+                                </div>
+                                <div class="cashflow-item expense">
+                                    <span class="cashflow-label">Egresos:</span>
+                                    <span class="cashflow-amount" id="total-expense">$0.00</span>
+                                </div>
+                                <div class="cashflow-item net">
+                                    <span class="cashflow-label">Neto:</span>
+                                    <span class="cashflow-amount" id="net-cashflow">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card kpis">
+                            <div class="card-header">
+                                <h3><i class="fas fa-tachometer-alt"></i> KPIs Clave</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="kpi-item">
+                                    <div class="kpi-value" id="profit-margin">0%</div>
+                                    <div class="kpi-label">Margen de Ganancia</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value" id="invoices-count">0</div>
+                                    <div class="kpi-label">Facturas Emitidas</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value" id="collection-rate">0%</div>
+                                    <div class="kpi-label">Tasa de Cobro</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="charts-section">
+                        <div class="chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> Ingresos vs Egresos</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="income-expense-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> Distribución de Egresos</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="expense-distribution-chart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="alerts-section">
+                        <div class="alerts-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Alertas</h3>
+                                <span class="badge" id="alerts-count">0</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="alerts-container" id="alerts-container">
+                                    <div class="no-alerts">No hay alertas en este momento</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="upcoming-payments-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-calendar-check"></i> Próximos Pagos</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="payments-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Concepto</th>
+                                            <th>Monto</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="payments-list">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Despacho Jurídico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles_FC.css">
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav>
+        <ul>
+            <li><a href="index.html#home"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="index.html#about"><i class="fas fa-users"></i> Nosotros</a></li>
+            <li><a href="index.html#services"><i class="fas fa-briefcase"></i> Servicios</a></li>
+            <li><a href="politica_seguridad.html"><i class="fas fa-shield-alt"></i> Seguridad y Privacidad</a></li>
+        </ul>
+    </nav>
+    
+    
+<body>
+    <div class="contact-container">
+        <div class="contact-info">
+            <div class="decoration"></div>
+            <div class="info-header">
+                <h1>Contacte con nuestro despacho</h1>
+                <p>Nuestro equipo de abogados especializados está listo para asistirle con sus necesidades legales.</p>
+            </div>
+            
+            <div class="contact-details">
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h3>Dirección</h3>
+                        <p>Av. Principal 123, Ciudad Jurídica</p>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h3>Teléfono</h3>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h3>Email</h3>
+                        <p>consultas@despachojuridico.com</p>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h3>Horario de atención</h3>
+                        <p>Lun-Vie: 9:00 - 18:00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <div class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-form-container">
+            <div class="form-header">
+                <h2>Formulario de Contacto</h2>
+                <p>Complete el formulario y nos pondremos en contacto con usted a la brevedad.</p>
+            </div>
+            
+            <form id="contactForm" class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo *</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                        <span class="error-message" id="nombreError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="asunto">Asunto *</label>
+                        <select id="asunto" name="asunto" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="consulta">Consulta legal</option>
+                            <option value="cita">Solicitud de cita</option>
+                            <option value="contratacion">Contratación de servicios</option>
+                            <option value="otros">Otros asuntos</option>
+                        </select>
+                        <span class="error-message" id="asuntoError"></span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mensaje">Mensaje *</label>
+                    <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                    <span class="error-message" id="mensajeError"></span>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacidad" name="privacidad" required>
+                    <label for="privacidad">He leído y acepto la <a href="#">política de privacidad</a> *</label>
+                    <span class="error-message" id="privacidadError"></span>
+                </div>
+                
+                <button type="submit" id="submitBtn" class="submit-btn">Enviar mensaje</button>
+            </form>
+            
+            <div id="successMessage" class="success-message hidden">
+                <h2>¡Mensaje enviado con éxito!</h2>
+                <p>Gracias por contactarnos. Nos pondremos en contacto con usted en un plazo máximo de 24 horas.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/formulario-contacto.js"></script>
+</body>
+</html>
