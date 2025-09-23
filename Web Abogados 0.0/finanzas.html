@@ -1,0 +1,57 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Profesional</title>
+    <link rel="stylesheet" href="assets/css/finanzas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+
+         <sidebar>
+            <div class="user-profile">
+                <h3>Panel de Finanzas</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="panel_abogado.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="finanzas.html"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
+                <li><a href="documentacion.html" class="active"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+            </ul>
+        </sidebar>
+
+        <header class="app-header">
+            <div class="logo-container">
+                <i data-lucide="layout-dashboard" class="logo-icon"></i>
+                <h1>Admin<span>Pro</span></h1>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">JP</div>
+                <span class="user-name">Juan Pérez</span>
+                <i data-lucide="chevron-down" class="dropdown-icon"></i>
+            </div>
+        </header>
+
+        <main class="main-content" id="main-content">
+            <section class="grafico-finanzas">
+           <h3>Resumen Financiero</h3>
+           <canvas id="graficoFinanzas" width="400" height="200"></canvas>
+           </section>
+           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        </main>
+    </div>
+
+    <script src="assets/js/finanzas.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

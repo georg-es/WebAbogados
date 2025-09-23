@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas por Cobrar - Sistema de Facturación</title>
+    <link rel="stylesheet" href="assets/css/cxc.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-file-invoice-dollar"></i> Cuentas por Cobrar</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="addInvoiceBtn">
+                        <i class="fas fa-plus"></i> Nueva Factura
+                    </button>
+                    <button class="btn btn-secondary" id="exportBtn">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="summary-cards">
+            <div class="card">
+                <div class="card-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Pendientes</h3>
+                    <p class="amount" id="totalPending">$0.00</p>
+                    <span class="count" id="countPending">0 facturas</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon overdue">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Vencidas</h3>
+                    <p class="amount" id="totalOverdue">$0.00</p>
+                    <span class="count" id="countOverdue">0 facturas</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon paid">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Pagadas Hoy</h3>
+                    <p class="amount" id="totalPaidToday">$0.00</p>
+                    <span class="count" id="countPaidToday">0 facturas</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="filters">
+            <div class="filter-group">
+                <label for="statusFilter">Estado:</label>
+                <select id="statusFilter" class="form-control">
+                    <option value="all">Todos los estados</option>
+                    <option value="pending">Pendiente</option>
+                    <option value="overdue">Vencida</option>
+                    <option value="paid">Pagada</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="clientFilter">Cliente:</label>
+                <input type="text" id="clientFilter" class="form-control" placeholder="Buscar cliente...">
+            </div>
+            <div class="filter-group">
+                <label for="dateFilter">Fecha:</label>
+                <input type="date" id="dateFilter" class="form-control">
+            </div>
+            <button class="btn btn-outline" id="clearFilters">
+                <i class="fas fa-times"></i> Limpiar
+            </button>
+        </section>
+
+        <!-- Main Table -->
+        <section class="table-section">
+            <div class="table-header">
+                <h2>Facturas por Cobrar</h2>
+                <div class="table-actions">
+                    <button class="btn btn-outline" id="sendRemindersBtn">
+                        <i class="fas fa-envelope"></i> Enviar Recordatorios
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="invoices-table" id="invoicesTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Factura #</th>
+                            <th>Cliente</th>
+                            <th>Fecha Emisión</th>
+                            <th>Fecha Vencimiento</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Días Vencido</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoicesTableBody">
+                        <!-- Los datos se cargan dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button class="btn btn-outline" id="prevPage" disabled>
+                <i class="fas fa-chevron-left"></i> Anterior
+            </button>
+            <span class="page-info" id="pageInfo">Página 1 de 1</span>
+            <button class="btn btn-outline" id="nextPage" disabled>
+                Siguiente <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal para Nueva Factura -->
+    <div class="modal" id="invoiceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Factura</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="invoiceForm">
+                    <div class="form-group">
+                        <label for="invoiceNumber">Número de Factura:</label>
+                        <input type="text" id="invoiceNumber" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientName">Cliente:</label>
+                        <input type="text" id="clientName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueDate">Fecha de Emisión:</label>
+                        <input type="date" id="issueDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate">Fecha de Vencimiento:</label>
+                        <input type="date" id="dueDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Monto:</label>
+                        <input type="number" id="amount" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Factura</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h3 id="confirmTitle">Confirmar Acción</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage">¿Está seguro de realizar esta acción?</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="confirmCancel">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmOk">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/cxc.js"></script>
+</body>
+</html>

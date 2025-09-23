@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario | Bufete Legal</title>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/calendario.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Bufete Legal</div>
+        <div class="user-info">
+            <span>Lic. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <sidebar>
+            <div class="user-profile">
+                <h3>Calendario</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="panel_abogado.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="finanzas.html" class="active"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
+                <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+            </ul>
+        </sidebar>
+        
+        <main>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h1><i class="fas fa-calendar-alt"></i> Calendario Legal</h1>
+                    <div class="calendar-actions">
+                        <button id="new-event-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Evento
+                        </button>
+                        <div class="view-options">
+                            <button id="day-view" class="btn btn-view active">
+                                <i class="fas fa-calendar-day"></i> Día
+                            </button>
+                            <button id="week-view" class="btn btn-view">
+                                <i class="fas fa-calendar-week"></i> Semana
+                            </button>
+                            <button id="month-view" class="btn btn-view">
+                                <i class="fas fa-calendar"></i> Mes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="calendar"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Detalles del Evento</h2>
+            <div class="modal-body">
+                <p><strong>Tipo:</strong> <span id="modal-type"></span></p>
+                <p><strong>Fecha:</strong> <span id="modal-date"></span></p>
+                <p><strong>Hora:</strong> <span id="modal-time"></span></p>
+                <p><strong>Cliente:</strong> <span id="modal-client"></span></p>
+                <p><strong>Ubicación:</strong> <span id="modal-location"></span></p>
+                <p><strong>Descripción:</strong> <span id="modal-description"></span></p>
+                <div class="modal-actions">
+                    <button id="edit-event" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button id="delete-event" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="event-form-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-form-modal">&times;</span>
+            <h2 id="form-modal-title">Nuevo Evento</h2>
+            <form id="event-form">
+                <input type="hidden" id="event-id">
+                <div class="form-group">
+                    <label for="event-title">Título</label>
+                    <input type="text" id="event-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-type">Tipo de Evento</label>
+                    <select id="event-type" required>
+                        <option value="">Seleccione un tipo</option>
+                        <option value="cita">Cita con Cliente</option>
+                        <option value="audiencia">Audiencia/Juicio</option>
+                        <option value="vencimiento">Vencimiento de Caso</option>
+                        <option value="pago">Vencimiento de Pago</option>
+                        <option value="tarea">Tarea Asignada</option>
+                        <option value="envio">Envío Automático</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="event-start">Fecha y Hora de Inicio</label>
+                    <input type="datetime-local" id="event-start" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-end">Fecha y Hora de Fin</label>
+                    <input type="datetime-local" id="event-end">
+                </div>
+                <div class="form-group">
+                    <label for="event-client">Cliente (opcional)</label>
+                    <input type="text" id="event-client">
+                </div>
+                <div class="form-group">
+                    <label for="event-location">Ubicación (opcional)</label>
+                    <input type="text" id="event-location">
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Descripción</label>
+                    <textarea id="event-description" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" id="cancel-form" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.min.js'></script>
+    <script src="assets/js/calendario.js"></script>
+</body>
+</html>

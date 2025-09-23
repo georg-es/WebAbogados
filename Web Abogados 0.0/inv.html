@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario Legal</title>
+    <link rel="stylesheet" href="assets/css/inv.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="header">
+            <h1><i class="fas fa-scale-balanced"></i> Gestión de Inventario Legal</h1>
+            <div class="header-controls">
+                <button id="add-btn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Añadir Nuevo Registro
+                </button>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Buscar por nombre, código, tipo...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filters">
+                    <select id="category-filter">
+                        <option value="">Todas las categorías</option>
+                        <option value="Documentos">Documentos</option>
+                        <option value="Equipos">Equipos</option>
+                        <option value="Software">Software</option>
+                        <option value="Suministro">Suministro</option>
+                    </select>
+                    <select id="status-filter">
+                        <option value="">Todos los estados</option>
+                        <option value="Disponible">Disponible</option>
+                        <option value="En uso">En uso</option>
+                        <option value="Archivado">Archivado</option>
+                        <option value="Vencido">Vencido</option>
+                        <option value="Extraviado">Extraviado</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tabla de registros -->
+        <main class="main-content">
+            <div class="table-header">
+                <h2>Inventario de Recursos Legales</h2>
+                <div class="export-buttons">
+                    <button id="export-pdf" class="btn-secondary">
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
+                    </button>
+                    <button id="export-excel" class="btn-secondary">
+                        <i class="fas fa-file-excel"></i> Exportar Excel
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Código/ID</th>
+                            <th>Nombre del Recurso</th>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Ubicación</th>
+                            <th>Responsable</th>
+                            <th>Estado</th>
+                            <th>Fecha de Ingreso</th>
+                            <th>Fecha de Vencimiento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Los registros se cargarán dinámicamente con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-footer">
+                <div class="summary">
+                    <span id="total-items">Total: 0 registros</span>
+                    <span id="expiring-alerts" class="alert-badge"></span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para formulario de nuevo registro/edición -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Añadir Nuevo Registro</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="inventory-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resource-name">Nombre del Recurso *</label>
+                        <input type="text" id="resource-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-category">Categoría *</label>
+                        <select id="resource-category" required>
+                            <option value="">Seleccione una categoría</option>
+                            <option value="Documentos">Documentos</option>
+                            <option value="Equipos">Equipos</option>
+                            <option value="Software">Software</option>
+                            <option value="Suministro">Suministro</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-description">Descripción Detallada *</label>
+                    <textarea id="resource-description" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resource-location">Ubicación *</label>
+                        <select id="resource-location" required>
+                            <option value="">Seleccione ubicación</option>
+                            <option value="Archivo físico">Archivo físico</option>
+                            <option value="Nube">Nube</option>
+                            <option value="Oficina Principal">Oficina Principal</option>
+                            <option value="Sala de Juicios">Sala de Juicios</option>
+                            <option value="Bóveda de seguridad">Bóveda de seguridad</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-assigned">Asignado a *</label>
+                        <select id="resource-assigned" required>
+                            <option value="">Seleccione un responsable</option>
+                            <option value="Juan Pérez">Juan Pérez</option>
+                            <option value="María García">María García</option>
+                            <option value="Carlos López">Carlos López</option>
+                            <option value="Ana Martínez">Ana Martínez</option>
+                            <option value="Departamento Legal">Departamento Legal</option>
+                            <option value="Archivo General">Archivo General</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resource-status">Estado *</label>
+                        <select id="resource-status" required>
+                            <option value="">Seleccione un estado</option>
+                            <option value="Disponible">Disponible</option>
+                            <option value="En uso">En uso</option>
+                            <option value="Archivado">Archivado</option>
+                            <option value="Vencido">Vencido</option>
+                            <option value="Extraviado">Extraviado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-entry-date">Fecha de Ingreso *</label>
+                        <input type="date" id="resource-entry-date" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-expiry-date">Fecha de Vencimiento/Renovación</label>
+                    <input type="date" id="resource-expiry-date">
+                    <small>Opcional: para contratos, licencias, etc.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-attachments">Archivos Adjuntos</label>
+                    <div class="file-upload">
+                        <input type="file" id="resource-attachments" multiple accept=".pdf,.doc,.docx,.jpg,.png">
+                        <label for="resource-attachments" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivos
+                        </label>
+                        <span id="file-names">No se han seleccionado archivos</span>
+                    </div>
+                    <small>Formatos permitidos: PDF, Word, imágenes (máx. 5 archivos, 10MB c/u)</small>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    <button type="button" id="cancel-btn" class="btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para ver detalles -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalles del Recurso</h2>
+                <span class="close detail-close">&times;</span>
+            </div>
+            <div id="detail-content">
+                <!-- Los detalles se cargarán dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones -->
+    <div id="notification" class="notification">
+        <span id="notification-text"></span>
+        <button id="close-notification">&times;</button>
+    </div>
+
+    <script src="assets/js/inv.js"></script>
+</body>
+</html>

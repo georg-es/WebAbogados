@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bufete Legal - Sistema Integral</title>
+    <link rel="stylesheet" href="assets/css/consideraciones_ad.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Bufete Legal</div>
+        <div class="user-info">
+            <span>Admin: Juan Pérez</span>
+            <div class="notification-badge" id="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count">3</span>
+            </div>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <div class="notifications-panel" id="notifications-panel">
+        <div class="notification-header" style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;">
+            <h3>Notificaciones</h3>
+            <button id="mark-all-read" style="background: none; border: none; color: var(--primary-color); cursor: pointer;">Marcar todas como leídas</button>
+        </div>
+        <div class="notification-item unread">
+            <div class="notification-message">Se te ha asignado el caso #2023-045 - Contrato de arrendamiento</div>
+            <div class="notification-time">Hace 15 minutos</div>
+        </div>
+        <div class="notification-item unread">
+            <div class="notification-message">Carlos Mendoza ha subido un nuevo documento al caso #2023-032</div>
+            <div class="notification-time">Hace 2 horas</div>
+        </div>
+        <div class="notification-item">
+            <div class="notification-message">Recordatorio: Audiencia del caso #2023-018 mañana a las 10:00 AM</div>
+            <div class="notification-time">Ayer, 15:30</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <sidebar>
+            <div class="user-profile">
+                <h3>Panel de Administración</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#"><i class="fas fa-briefcase"></i> Mis Casos</a></li>
+                <li><a href="#"><i class="fas fa-list-ol"></i> Todos los Casos</a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li><a href="#" class="active"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="#"><i class="fas fa-users-cog"></i> Usuarios y Grupos</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> Auditoría</a></li>
+            </ul>
+        </sidebar>
+
+        <main>
+            <div class="page-header">
+                <h1 class="page-title">Gestión de Documentos</h1>
+                <button class="primary-btn"><i class="fas fa-upload"></i> Subir Documento</button>
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="document-case">Asociado a caso:</label>
+                        <select id="document-case" class="filter-control">
+                            <option value="all">Todos los casos</option>
+                            <option value="2023-045">#2023-045 - Contrato arrendamiento</option>
+                            <option value="2023-032">#2023-032 - Divorcio Martínez</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="document-type">Tipo de documento:</label>
+                        <select id="document-type" class="filter-control">
+                            <option value="all">Todos los tipos</option>
+                            <option value="contract">Contrato</option>
+                            <option value="motion">Escrito judicial</option>
+                            <option value="evidence">Prueba</option>
+                        </select>
+                    </div>
+
+                    <div class="search-group">
+                        <label for="document-search">Buscar en contenido:</label>
+                        <input type="text" id="document-search" class="filter-control" placeholder="Texto en documentos...">
+                    </div>
+                </div>
+
+                <div class="filter-row">
+                    <div class="filter-actions">
+                        <button class="primary-btn">Aplicar filtros</button>
+                        <button class="action-btn btn-toggle">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-preview">
+                <div class="document-thumbnail">
+                    <i class="fas fa-file-pdf fa-3x" style="color: #d93025;"></i>
+                </div>
+                <div class="document-info">
+                    <h3>Contrato_de_arrendamiento_v2.pdf</h3>
+                    <p><strong>Caso:</strong> #2023-045 - Contrato de arrendamiento</p>
+                    <p><strong>Subido por:</strong> María García - 15/06/2023 14:30</p>
+                    <div class="document-version">Versión 2 - Revisión completa del contrato</div>
+
+                    <div class="version-history">
+                        <h4>Historial de versiones:</h4>
+                        <div class="audit-item">
+                            <div class="audit-icon"><i class="fas fa-file-upload"></i></div>
+                            <div class="audit-details">
+                                <div>María García subió la versión 1</div>
+                                <div class="audit-time">10/06/2023 09:15</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin: 2rem 0 1rem;">Actividad Reciente</h2>
+            <div class="audit-log">
+                <div class="audit-item">
+                    <div class="audit-icon"><i class="fas fa-user-edit"></i></div>
+                    <div class="audit-details">
+                        <div>Abogado Juan Pérez modificó el caso #2023-001</div>
+                        <div class="audit-time">19/06/2025 10:00 AM</div>
+                    </div>
+                </div>
+                <div class="audit-item">
+                    <div class="audit-icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="audit-details">
+                        <div>Carlos López subió un nuevo documento al caso #2023-032</div>
+                        <div class="audit-time">19/06/2025 09:30 AM</div>
+                    </div>
+                </div>
+                <div class="audit-item">
+                    <div class="audit-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="audit-details">
+                        <div>María García programó una audiencia para el caso #2023-018</div>
+                        <div class="audit-time">18/06/2025 04:45 PM</div>
+                    </div>
+                </div>
+                <div class="audit-item">
+                    <div class="audit-icon"><i class="fas fa-user-lock"></i></div>
+                    <div class="audit-details">
+                        <div>Admin Juan Pérez desactivó al usuario Ana Martínez</div>
+                        <div class="audit-time">18/06/2025 11:20 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-integration">
+                <div class="calendar-events">
+                    <h3><i class="fas fa-calendar-day"></i> Próximos Eventos</h3>
+                    <div class="event-item">
+                        <div class="event-time">20/06 - 10:00 AM</div>
+                        <div>Audiencia: Caso #2023-018 - Divorcio López</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-time">21/06 - 03:00 PM</div>
+                        <div>Reunión con cliente: Caso #2023-045</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-time">22/06 - Todo el día</div>
+                        <div>Plazo límite para presentar recurso - Caso #2023-027</div>
+                    </div>
+                </div>
+
+                <div class="calendar-external">
+                    <h3><i class="fas fa-calendar-alt"></i> Calendarios Externos</h3>
+                    <div style="margin-top: 1rem;">
+                        <button class="action-btn" id="google-sync-btn" style="background-color: #4285F4; color: white;">
+                            <i class="fab fa-google"></i> Sincronizar con Google Calendar
+                        </button>
+                        <button class="action-btn" id="outlook-sync-btn" style="background-color: #0078D7; color: white; margin-top: 0.5rem;">
+                            <i class="fab fa-microsoft"></i> Sincronizar con Outlook
+                        </button>
+                    </div>
+                    <div style="margin-top: 1.5rem; font-size: 0.9rem; color: #666;">
+                        <i class="fas fa-info-circle"></i> Los eventos de casos se sincronizarán automáticamente con tu calendario preferido.
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-container" style="margin-top: 3rem; display: none;">
+                <h2 class="page-title">Configuración del Sistema</h2>
+
+                <div class="settings-tabs">
+                    <div class="settings-tab active" data-tab="case-types">Tipos de Caso</div>
+                    <div class="settings-tab" data-tab="statuses">Estados</div>
+                    <div class="settings-tab" data-tab="templates">Plantillas</div>
+                    <div class="settings-tab" data-tab="notifications">Notificaciones</div>
+                </div>
+
+                <div class="settings-section active" id="case-types">
+                    <h3>Tipos de Caso Personalizados</h3>
+                    </div>
+
+                <div class="settings-section" id="statuses">
+                    <h3>Estados de Caso Personalizados</h3>
+                    <div class="custom-statuses">
+                        <div class="status-tag">
+                            <div class="status-color" style="background-color: #17a2b8;"></div>
+                            En Revisión
+                        </div>
+                        <div class="status-tag">
+                            <div class="status-color" style="background-color: #ffc107;"></div>
+                            Esperando Documentos
+                        </div>
+                        <div class="status-tag">
+                            <div class="status-color" style="background-color: #6f42c1;"></div>
+                            En Negociación
+                        </div>
+                        <div class="status-tag">
+                            <div class="status-color" style="background-color: #28a745;"></div>
+                            Resuelto
+                        </div>
+                        <div class="status-tag">
+                            <div class="status-color" style="background-color: #dc3545;"></div>
+                            Archivado
+                        </div>
+                    </div>
+                    <button class="primary-btn" style="margin-top: 1rem;"><i class="fas fa-plus"></i> Agregar Estado</button>
+                </div>
+
+                <div class="settings-section" id="templates">
+                    <h3>Plantillas de Documentos</h3>
+                    <div class="template-item">
+                        <h4>Contrato de Arrendamiento</h4>
+                        <p>Plantilla base para contratos de arrendamiento residencial</p>
+                        <div style="margin-top: 0.5rem;">
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="action-btn btn-delete"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="template-item">
+                        <h4>Demanda de Divorcio</h4>
+                        <p>Plantilla para iniciar proceso de divorcio contencioso</p>
+                        <div style="margin-top: 0.5rem;">
+                            <button class="action-btn btn-edit"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="action-btn btn-delete"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    </div>
+                    <button class="primary-btn" style="margin-top: 1rem;"><i class="fas fa-plus"></i> Nueva Plantilla</button>
+                </div>
+
+                <div class="settings-section" id="notifications">
+                    <h3>Configuración de Notificaciones</h3>
+                    <div style="margin-top: 1rem;">
+                        <label style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <input type="checkbox" checked style="margin-right: 0.5rem;">
+                            Recibir notificaciones por email cuando se asigne un nuevo caso
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <input type="checkbox" checked style="margin-right: 0.5rem;">
+                            Notificar sobre cambios de estado en casos asignados
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <input type="checkbox" style="margin-right: 0.5rem;">
+                            Recibir recordatorios de eventos programados
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/consideraciones_ad.js"></script>
+</body>
+</html>

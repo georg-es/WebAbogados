@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ingresos</title>
+    <link rel="stylesheet" href="assets/css/gestion_ingresos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="income-container">
+        <header class="income-header">
+            <h1><i class="fas fa-money-bill-wave"></i> Gestión de Ingresos</h1>
+            <div class="header-actions">
+                <button id="new-income-btn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Ingreso
+                </button>
+            </div>
+        </header>
+
+        <div class="income-content">
+            <!-- Filtros -->
+            <section class="filters-section">
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <h3><i class="fas fa-filter"></i> Filtros</h3>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="client-filter">Cliente</label>
+                                <select id="client-filter">
+                                    <option value="">Todos los clientes</option>
+                                    <!-- Opciones se cargarán dinámicamente -->
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="status-filter">Estado</label>
+                                <select id="status-filter">
+                                    <option value="">Todos</option>
+                                    <option value="confirmed">Confirmados</option>
+                                    <option value="pending">Pendientes</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="payment-method-filter">Medio de pago</label>
+                                <select id="payment-method-filter">
+                                    <option value="">Todos</option>
+                                    <option value="cash">Efectivo</option>
+                                    <option value="transfer">Transferencia</option>
+                                    <option value="credit_card">Tarjeta de crédito</option>
+                                    <option value="check">Cheque</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="date-from">Desde</label>
+                                <input type="date" id="date-from" class="date-input">
+                            </div>
+                            <div class="filter-group">
+                                <label for="date-to">Hasta</label>
+                                <input type="date" id="date-to" class="date-input">
+                            </div>
+                            <div class="filter-group">
+                                <label for="case-filter">Caso relacionado</label>
+                                <select id="case-filter">
+                                    <option value="">Todos los casos</option>
+                                    <!-- Opciones se cargarán dinámicamente -->
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <button id="apply-filters" class="btn-secondary">
+                                    <i class="fas fa-filter"></i> Aplicar
+                                </button>
+                                <button id="reset-filters" class="btn-text">
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resumen -->
+            <section class="summary-section">
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <span class="summary-label">Total Ingresos:</span>
+                        <span class="summary-value" id="total-income">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Confirmados:</span>
+                        <span class="summary-value" id="confirmed-income">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Pendientes:</span>
+                        <span class="summary-value" id="pending-income">$0.00</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lista de ingresos -->
+            <section class="income-list-section">
+                <div class="income-list-card">
+                    <div class="list-header">
+                        <h3><i class="fas fa-list"></i> Registro de Ingresos</h3>
+                        <div class="list-actions">
+                            <button id="export-excel" class="btn-icon" title="Exportar a Excel">
+                                <i class="fas fa-file-excel"></i>
+                            </button>
+                            <button id="export-pdf" class="btn-icon" title="Exportar a PDF">
+                                <i class="fas fa-file-pdf"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="list-body">
+                        <table class="income-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Concepto</th>
+                                    <th>Caso</th>
+                                    <th>Monto</th>
+                                    <th>Medio de pago</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="income-list">
+                                <!-- Los ingresos se cargarán dinámicamente aquí -->
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                            <span id="page-info">Página 1 de 1</span>
+                            <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal para nuevo/editar ingreso -->
+    <div id="income-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Nuevo Ingreso</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="income-form">
+                    <input type="hidden" id="income-id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="income-client">Cliente *</label>
+                            <select id="income-client" required>
+                                <option value="">Seleccionar cliente...</option>
+                                <!-- Opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="income-case">Caso relacionado</label>
+                            <select id="income-case">
+                                <option value="">Seleccionar caso...</option>
+                                <!-- Opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="income-concept">Concepto *</label>
+                            <input type="text" id="income-concept" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="income-amount">Monto *</label>
+                            <input type="number" id="income-amount" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="income-date">Fecha *</label>
+                            <input type="date" id="income-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="income-payment-method">Medio de pago *</label>
+                            <select id="income-payment-method" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="cash">Efectivo</option>
+                                <option value="transfer">Transferencia</option>
+                                <option value="credit_card">Tarjeta de crédito</option>
+                                <option value="check">Cheque</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="income-reference">Referencia/Comprobante</label>
+                            <input type="text" id="income-reference">
+                        </div>
+                        <div class="form-group">
+                            <label for="income-status">Estado</label>
+                            <select id="income-status">
+                                <option value="confirmed">Confirmado</option>
+                                <option value="pending">Pendiente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="income-notes">Notas</label>
+                        <textarea id="income-notes" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary close-modal-btn">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar Ingreso</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-header">
+                <h3>Confirmar Acción</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">¿Estás seguro que deseas realizar esta acción?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary cancel-action">Cancelar</button>
+                <button type="button" class="btn-danger confirm-action">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="scripts/income.js"></script>
+</body>
+</html>

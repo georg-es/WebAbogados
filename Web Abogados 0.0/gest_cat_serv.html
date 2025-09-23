@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Personalización de Campos</title>
+    <link rel="stylesheet" href="assets/css/gest_cat_serv.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-left">
+                <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
+                <p>Personalización de Campos de Solicitud</p>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=3498db&color=fff" alt="Usuario">
+                    <span>Administrador</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Sidebar -->
+            <aside class="admin-sidebar">
+                <nav>
+                    <ul>
+                        <li class="active"><a href="#"><i class="fas fa-sliders-h"></i> Campos Personalizados</a></li>
+                        <li><a href="#"><i class="fas fa-list"></i> Tipos de Campo</a></li>
+                        <li><a href="#"><i class="fas fa-project-diagram"></i> Dependencias</a></li>
+                        <li><a href="#"><i class="fas fa-copy"></i> Plantillas</a></li>
+                        <li><a href="#"><i class="fas fa-history"></i> Historial de Cambios</a></li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <div class="system-status">
+                        <h4>Estado del Sistema</h4>
+                        <div class="status-item">
+                            <span class="status-dot online"></span>
+                            <span>Campos activos: 24</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-dot warning"></span>
+                            <span>Campos sin revisar: 3</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <section class="admin-content">
+                <div class="content-header">
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar campo...">
+                        </div>
+                        <button class="btn btn-primary" id="create-field-btn">
+                            <i class="fas fa-plus"></i> Nuevo Campo
+                        </button>
+                    </div>
+                    <div class="view-options">
+                        <button class="view-option active" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="view-option" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Service Selector -->
+                <div class="service-selector card">
+                    <h3>Seleccione un servicio</h3>
+                    <div class="selector-content">
+                        <select id="service-select">
+                            <option value="">-- Seleccione un servicio --</option>
+                            <option value="1">Kaspersky - Instalación</option>
+                            <option value="2">Kaspersky - Licencias</option>
+                            <option value="3">Kaspersky - Soporte Técnico</option>
+                            <option value="4">Office 365 - Implementación</option>
+                            <option value="5">Office 365 - Migración</option>
+                        </select>
+                        <div class="service-info" id="service-info">
+                            <p>Seleccione un servicio para gestionar sus campos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fields Container -->
+                <div class="fields-container card">
+                    <div class="card-header">
+                        <h3>Campos Personalizados</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-icon" id="export-btn" title="Exportar configuración">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-icon" id="import-btn" title="Importar configuración">
+                                <i class="fas fa-upload"></i>
+                            </button>
+                            <button class="btn btn-icon" id="expand-all-btn" title="Expandir todo">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button class="btn btn-icon" id="collapse-all-btn" title="Contraer todo">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="fields-list" class="fields-list">
+                            <!-- Campos se cargarán dinámicamente -->
+                            <div class="empty-state">
+                                <i class="fas fa-sliders-h"></i>
+                                <h4>No hay campos personalizados</h4>
+                                <p>Seleccione un servicio o cree un nuevo campo para comenzar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Field Preview -->
+                <div class="field-preview card">
+                    <div class="card-header">
+                        <h3>Vista Previa del Formulario</h3>
+                        <div class="view-options">
+                            <button class="btn btn-sm btn-outline" id="refresh-preview">
+                                <i class="fas fa-sync"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="preview-container">
+                            <div class="form-preview">
+                                <h4 class="preview-title">Formulario de Solicitud</h4>
+                                <div id="field-preview-content">
+                                    <p class="preview-placeholder">Los campos aparecerán aquí cuando se seleccione un servicio</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para edición de campos -->
+    <div class="modal" id="field-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="field-modal-title">Crear Nuevo Campo</h3>
+                    <button class="modal-close" id="close-field-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="field-form">
+                        <div class="form-tabs">
+                            <button type="button" class="tab-btn active" data-tab="basic">Básico</button>
+                            <button type="button" class="tab-btn" data-tab="validation">Validación</button>
+                            <button type="button" class="tab-btn" data-tab="advanced">Avanzado</button>
+                            <button type="button" class="tab-btn" data-tab="conditional">Condicional</button>
+                        </div>
+
+                        <div class="tab-content active" data-tab="basic">
+                            <div class="form-group">
+                                <label for="field-label">Etiqueta del campo *</label>
+                                <input type="text" id="field-label" required>
+                                <div class="form-help">Texto que verá el usuario para este campo</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-type">Tipo de campo *</label>
+                                <select id="field-type" required>
+                                    <option value="">-- Seleccione un tipo --</option>
+                                    <option value="text">Texto</option>
+                                    <option value="textarea">Área de texto</option>
+                                    <option value="email">Email</option>
+                                    <option value="number">Número</option>
+                                    <option value="select">Selector desplegable</option>
+                                    <option value="multiselect">Selección múltiple</option>
+                                    <option value="checkbox">Casilla de verificación</option>
+                                    <option value="radio">Botones de opción</option>
+                                    <option value="date">Fecha</option>
+                                    <option value="datetime">Fecha y hora</option>
+                                    <option value="file">Archivo</option>
+                                    <option value="image">Imagen</option>
+                                    <option value="color">Selector de color</option>
+                                    <option value="range">Rango</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-name">Nombre interno *</label>
+                                <input type="text" id="field-name" required>
+                                <div class="form-help">Identificador único para uso interno (sin espacios ni caracteres especiales)</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-placeholder">Texto de placeholder</label>
+                                <input type="text" id="field-placeholder">
+                            </div>
+                            <div class="form-group">
+                                <label for="field-help">Texto de ayuda</label>
+                                <textarea id="field-help" rows="2"></textarea>
+                                <div class="form-help">Texto adicional que ayuda al usuario a completar el campo</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" data-tab="validation">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="field-required">
+                                    <span class="checkmark"></span>
+                                    Campo obligatorio
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-validation">Tipo de validación</label>
+                                <select id="field-validation">
+                                    <option value="">Ninguna</option>
+                                    <option value="email">Email</option>
+                                    <option value="url">URL</option>
+                                    <option value="phone">Teléfono</option>
+                                    <option value="numeric">Solo números</option>
+                                    <option value="alphanumeric">Alfanumérico</option>
+                                    <option value="regex">Expresión regular</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="regex-container" style="display: none;">
+                                <label for="field-regex">Expresión regular</label>
+                                <input type="text" id="field-regex" placeholder="Ej: ^[A-Za-z0-9]+$">
+                                <div class="form-help">Ingrese una expresión regular para validación personalizada</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-minlength">Longitud mínima</label>
+                                <input type="number" id="field-minlength" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="field-maxlength">Longitud máxima</label>
+                                <input type="number" id="field-maxlength" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="field-pattern">Patrón de entrada</label>
+                                <input type="text" id="field-pattern" placeholder="Ej: [A-Za-z]{3}">
+                                <div class="form-help">Patrón HTML5 para validación en el navegador</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" data-tab="advanced">
+                            <div class="form-group">
+                                <label for="field-default">Valor por defecto</label>
+                                <input type="text" id="field-default">
+                            </div>
+                            <div class="form-group">
+                                <label for="field-class">Clases CSS</label>
+                                <input type="text" id="field-class" placeholder="clase1 clase2">
+                            </div>
+                            <div class="form-group">
+                                <label for="field-style">Estilos en línea</label>
+                                <textarea id="field-style" rows="2" placeholder="propiedad: valor;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-position">Posición en el formulario</label>
+                                <input type="number" id="field-position" min="0" value="0">
+                                <div class="form-help">Número que determina el orden de los campos (menor = primero)</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="field-hidden">
+                                    <span class="checkmark"></span>
+                                    Campo oculto
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="field-readonly">
+                                    <span class="checkmark"></span>
+                                    Solo lectura
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" data-tab="conditional">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="field-conditional">
+                                    <span class="checkmark"></span>
+                                    Habilitar lógica condicional
+                                </label>
+                            </div>
+                            <div id="conditional-settings" style="display: none;">
+                                <div class="form-group">
+                                    <label for="conditional-field">Campo dependiente</label>
+                                    <select id="conditional-field">
+                                        <option value="">-- Seleccione un campo --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="conditional-operator">Operador</label>
+                                    <select id="conditional-operator">
+                                        <option value="equals">Igual a</option>
+                                        <option value="not_equals">Diferente de</option>
+                                        <option value="contains">Contiene</option>
+                                        <option value="greater">Mayor que</option>
+                                        <option value="less">Menor que</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="conditional-value">Valor de comparación</label>
+                                    <input type="text" id="conditional-value">
+                                </div>
+                                <div class="form-group">
+                                    <label for="conditional-action">Acción</label>
+                                    <select id="conditional-action">
+                                        <option value="show">Mostrar campo</option>
+                                        <option value="hide">Ocultar campo</option>
+                                        <option value="enable">Habilitar campo</option>
+                                        <option value="disable">Deshabilitar campo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Options container for select, radio, etc. -->
+                        <div class="form-group" id="options-container" style="display: none;">
+                            <label>Opciones</label>
+                            <div id="options-list"></div>
+                            <button type="button" class="btn btn-sm btn-outline" id="add-option">
+                                <i class="fas fa-plus"></i> Añadir opción
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancel-field">Cancelar</button>
+                    <button class="btn btn-primary" id="save-field">Guardar Campo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para opciones -->
+    <div class="modal" id="option-modal">
+        <div class="modal-dialog sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Editar Opción</h3>
+                    <button class="modal-close" id="close-option-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="option-label">Etiqueta</label>
+                        <input type="text" id="option-label">
+                    </div>
+                    <div class="form-group">
+                        <label for="option-value">Valor</label>
+                        <input type="text" id="option-value">
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="option-selected">
+                            <span class="checkmark"></span>
+                            Seleccionado por defecto
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancel-option">Cancelar</button>
+                    <button class="btn btn-primary" id="save-option">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/gest_cat_serv.js"></script>
+</body>
+</html>

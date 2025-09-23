@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Servicios Legales</title>
+    <link rel="stylesheet" href="assets/css/cat_servicios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-gavel"></i>
+                <span class="logo-text">LegalTech</span>
+            </div>
+            <h2>Categorías</h2>
+            <ul id="category-list" class="category-list">
+                <li data-category="all" class="active">Todas las Categorías</li>
+                <li data-category="legal-documentation"><i class="fa-solid fa-file-alt"></i> Documentación Legal</li>
+                <li data-category="legal-consulting"><i class="fa-solid fa-scale-balanced"></i> Consultoría Jurídica</li>
+                <li data-category="contracts-negotiations"><i class="fa-solid fa-handshake"></i> Contratos y Negociaciones</li>
+                <li data-category="litigation"><i class="fa-solid fa-gavel"></i> Litigios y Representación</li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            <header class="header">
+                <h1>Catálogo de Servicios</h1>
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Buscar servicios...">
+                </div>
+            </header>
+
+            <section id="services-list" class="services-grid">
+                </section>
+        </main>
+    </div>
+
+    <div id="request-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-title"></h2>
+            <form id="service-form">
+                </form>
+            <button id="submit-request-btn" class="submit-button">Enviar Solicitud</button>
+        </div>
+    </div>
+
+    <script src="assets/js/cat_servicios.js"></script>
+</body>
+</html>
