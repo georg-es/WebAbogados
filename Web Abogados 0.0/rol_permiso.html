@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Roles y Permisos</title>
+    <link rel="stylesheet" href="assets/css/rol_permiso.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+         <header>
+        <div class="user-info">
+            <span>Dr. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+
+        <div class="theme-toggle-container">
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <label for="theme-toggle-checkbox" class="toggle-button">
+                <i class="fas fa-moon"></i>
+            </label>
+        </div>
+
+        <div class="logo">Bufete Legal</div>
+        
+        <div class="search-box">
+            <label for="search">Buscar:</label>
+            <input type="text" id="search" placeholder="ID, cliente o palabras clave">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div> 
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="user-profile">
+                <h1 class="page-title">Roles y Permisos</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="panel_abogado.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li class="has-submenu" id="finanzas-menu-item">
+                    <a href="#"><i class="fas fa-dollar-sign"></i> Finanzas <i
+                            class="fas fa-chevron-down submenu-arrow"></i></a>
+                    <ul class="submenu">
+                        <li><a href="gestion_ingresos.html">Gestión de Ingresos</a></li>
+                        <li><a href="gestion_egresos.html">Gestión de Egresos</a></li>
+                        <li><a href="facturacion.html">Facturación Electrónica</a></li>
+                        <li><a href="cuentas_cobrar.html">Cuentas por Cobrar</a></li>
+                        <li><a href="cuentas_pagar.html">Cuentas por Pagar</a></li>
+                    </ul>
+                </li>
+                <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="auditoria.html"><i class="fas fa-fingerprint"></i> Auditoría</a></li>
+                <li><a href="inv.html"><i class="fas fa-cubes"></i> Inventario</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+            </ul>
+        </aside>
+         
+        <div class="header">
+            <h1><i class="fas fa-user-shield"></i> Gestión de Roles y Permisos</h1>
+            <p>Administre los roles de usuario y los módulos a los que tienen acceso</p>
+        </div>
+
+        <div class="dashboard"> 
+            <!-- Panel de Roles -->
+            <section class="panel roles-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-users"></i> Roles de Usuario</h2>
+                    <button id="new-role-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nuevo Rol
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div class="form-container">
+                        <form id="role-form">
+                            <input type="hidden" id="role-id">
+                            <div class="form-group">
+                                <label for="role-name">Nombre del Rol:</label>
+                                <input type="text" id="role-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="role-description">Descripción:</label>
+                                <textarea id="role-description" rows="3"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" id="save-role-btn" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Rol
+                                </button>
+                                <button type="button" id="cancel-role-btn" class="btn btn-secondary hidden">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="roles-list">
+                        <h3>Roles Existentes</h3>
+                        <div id="roles-container" class="items-container">
+                            <!-- Los roles se cargarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Panel de Módulos y Permisos -->
+            <section class="panel permissions-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-key"></i> Permisos del Rol</h2>
+                    <div id="selected-role-info" class="role-info hidden">
+                        <span id="selected-role-name"></span>
+                        <button id="save-permissions-btn" class="btn btn-primary hidden">
+                            <i class="fas fa-save"></i> Guardar Permisos
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="no-role-selected" class="empty-state">
+                        <i class="fas fa-hand-pointer"></i>
+                        <h3>Seleccione un rol para gestionar sus permisos</h3>
+                        <p>Elija un rol de la lista para ver y modificar los módulos a los que tiene acceso</p>
+                    </div>
+                    
+                    <div id="permissions-container" class="permissions-container hidden">
+                        <div class="modules-list">
+                            <h3>Módulos Disponibles</h3>
+                            <div id="modules-container" class="items-container">
+                                <!-- Los módulos se cargarán aquí dinámicamente -->
+                            </div>
+                        </div>
+                        
+                        <div class="permissions-actions">
+                            <button id="select-all-btn" class="btn btn-outline">
+                                <i class="fas fa-check-double"></i> Seleccionar Todos
+                            </button>
+                            <button id="deselect-all-btn" class="btn btn-outline">
+                                <i class="fas fa-times-circle"></i> Deseleccionar Todos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Modal de confirmación -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar Eliminación</h3>
+                <button id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de que desea eliminar el rol <strong id="role-to-delete"></strong>?</p>
+                <p class="warning-text">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm-delete-btn" class="btn btn-danger">Eliminar</button>
+                <button id="cancel-delete-btn" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/rol_permiso.js"></script>
+</body>
+</html>

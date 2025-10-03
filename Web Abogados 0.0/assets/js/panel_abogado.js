@@ -197,37 +197,40 @@ function loadCases(filteredCases = null) {
         const statusInfo = getStatusInfo(caseItem.status);
         
         card.innerHTML = `
-            <div>${caseItem.id}</div>
-            <div>${caseItem.client}</div>
-            <div>${caseItem.type}</div>
-            <div>${caseItem.date}</div>
-            <div><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></div>
-            <div>
-                ${
-                    caseItem.interaction === "new"
-                    ? "Nuevo"
-                    : caseItem.interaction === "client-replied"
-                    ? "Respondió el cliente"
-                    : "-"
-                }
+    <div class="checkbox-cell">
+        <input type="checkbox" class="case-checkbox" data-id="${caseItem.id}">
+    </div>
+    <div class="interaction-cell">
+        ${
+            caseItem.interaction === "new"
+            ? '<div class="interaction-dot dot-new" title="Nueva interacción"></div>'
+            : caseItem.interaction === "client-replied"
+            ? '<div class="interaction-dot dot-replied" title="Respondió el cliente"></div>'
+            : '<div class="interaction-dot dot-none" title="Sin interacciones"></div>'
+        }
+    </div>
+    <div>${caseItem.id}</div>
+    <div>${caseItem.client}</div>
+    <div>${caseItem.type}</div>
+    <div>${caseItem.date}</div>
+    <div><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></div>
+    <div>
+        <button class="action-btn view-btn" data-id="${caseItem.id}">
+            <i class="fas fa-eye"></i> Ver
+        </button>
+        <div class="status-dropdown-container">
+            <button class="action-btn status-btn" data-id="${caseItem.id}">
+                <i class="fas fa-sync-alt"></i> Estado
+            </button>
+            <div class="status-dropdown">
+                <div class="dropdown-item" data-status="pending">Pendiente</div>
+                <div class="dropdown-item" data-status="in-progress">En proceso</div>
+                <div class="dropdown-item" data-status="resolved">Resuelto</div>
+                <div class="dropdown-item" data-status="canceled">Cancelado</div>
             </div>
-            <div>
-                <button class="action-btn view-btn" data-id="${caseItem.id}">
-                    <i class="fas fa-eye"></i> Ver
-                </button>
-                <div class="status-dropdown-container">
-                    <button class="action-btn status-btn" data-id="${caseItem.id}">
-                        <i class="fas fa-sync-alt"></i> Estado
-                    </button>
-                    <div class="status-dropdown">
-                        <div class="dropdown-item" data-status="pending">Pendiente</div>
-                        <div class="dropdown-item" data-status="in-progress">En proceso</div>
-                        <div class="dropdown-item" data-status="resolved">Resuelto</div>
-                        <div class="dropdown-item" data-status="canceled">Cancelado</div>
-                    </div>
-                </div>
-            </div>
-        `;
+        </div>
+    </div>
+`;
         
         casesContainer.appendChild(card); // Añadimos la tarjeta al nuevo contenedor
     });
@@ -588,7 +591,6 @@ function saveStatusFromModal() {
     alert('Estado del caso actualizado correctamente');
 }
 
-// Aplicar filtros
 // Aplicar filtros
 function applyFilters() {
     const statusVal = document.getElementById('status-filter')?.value || 'all';

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Auditoría - Trazabilidad Integral</title>
+    <link rel="stylesheet" href="assets/css/auditoria.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Sistema de Auditoría</h1>
+                <div class="user-info">
+                    <span id="user-name">Administrador</span>
+                    <div class="user-role-badge" id="user-role">Auditor</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <section class="dashboard">
+            <div class="dashboard-cards">
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Eventos Hoy</h3>
+                        <span class="card-value" id="today-events">1,247</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Usuarios Activos</h3>
+                        <span class="card-value" id="active-users">42</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Alertas</h3>
+                        <span class="card-value alert" id="alerts-count">3</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Registros Totales</h3>
+                        <span class="card-value" id="total-records">245,789</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <section class="filters-section">
+            <div class="section-header">
+                <h2><i class="fas fa-filter"></i> Filtros de Búsqueda</h2>
+                <button class="btn btn-secondary" id="reset-filters">
+                    <i class="fas fa-redo"></i> Limpiar Filtros
+                </button>
+            </div>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="date-range">Rango de Fechas</label>
+                    <div class="date-inputs">
+                        <input type="datetime-local" id="date-from">
+                        <input type="datetime-local" id="date-to">
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label for="module">Módulo</label>
+                    <select id="module">
+                        <option value="">Todos los módulos</option>
+                        <option value="Clientes">Clientes</option>
+                        <option value="Casos">Casos</option>
+                        <option value="Facturación">Facturación</option>
+                        <option value="Configuración">Configuración</option>
+                        <option value="Usuarios">Usuarios</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="action">Acción</label>
+                    <select id="action">
+                        <option value="">Todas las acciones</option>
+                        <option value="crear">Crear</option>
+                        <option value="leer">Leer</option>
+                        <option value="actualizar">Actualizar</option>
+                        <option value="eliminar">Eliminar</option>
+                        <option value="login">Login</option>
+                        <option value="logout">Logout</option>
+                        <option value="permiso_cambio">Cambio de Permiso</option>
+                        <option value="export">Exportar</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="user">Usuario</label>
+                    <select id="user">
+                        <option value="">Todos los usuarios</option>
+                        <option value="user1">Juan Pérez</option>
+                        <option value="user2">María García</option>
+                        <option value="user3">Carlos López</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="result">Resultado</label>
+                    <select id="result">
+                        <option value="">Todos los resultados</option>
+                        <option value="success">Éxito</option>
+                        <option value="failure">Fallo</option>
+                        <option value="error">Error</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search">Búsqueda de Texto</label>
+                    <input type="text" id="search" placeholder="Buscar en comentarios, object_id...">
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-primary" id="apply-filters">
+                    <i class="fas fa-search"></i> Aplicar Filtros
+                </button>
+                <button class="btn btn-outline" id="save-search">
+                    <i class="fas fa-save"></i> Guardar Búsqueda
+                </button>
+            </div>
+        </section>
+
+        <!-- Resultados -->
+        <section class="results-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Registros de Auditoría</h2>
+                <div class="results-actions">
+                    <button class="btn btn-outline" id="export-btn">
+                        <i class="fas fa-file-export"></i> Exportar
+                    </button>
+                    <button class="btn btn-primary" id="evidence-pack">
+                        <i class="fas fa-box"></i> Crear Paquete de Evidencia
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="audit-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha/Hora</th>
+                            <th>Usuario</th>
+                            <th>Módulo</th>
+                            <th>Acción</th>
+                            <th>Objeto</th>
+                            <th>Resultado</th>
+                            <th>IP</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="audit-table-body">
+                        <!-- Los registros se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button class="btn btn-outline" id="prev-page">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <span id="page-info">Página 1 de 10</span>
+                <button class="btn btn-outline" id="next-page">
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal para detalles -->
+    <div id="detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalles del Evento de Auditoría</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="detail-tabs">
+                    <button class="tab-button active" data-tab="general">Información General</button>
+                    <button class="tab-button" data-tab="before-after">Cambios</button>
+                    <button class="tab-button" data-tab="raw">JSON Completo</button>
+                </div>
+                
+                <div id="general-tab" class="tab-content active">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>ID del Evento:</label>
+                            <span id="detail-id"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Fecha/Hora (UTC):</label>
+                            <span id="detail-timestamp-utc"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Fecha/Hora (Local):</label>
+                            <span id="detail-timestamp-local"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Usuario:</label>
+                            <span id="detail-user"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Rol:</label>
+                            <span id="detail-role"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Módulo:</label>
+                            <span id="detail-module"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Acción:</label>
+                            <span id="detail-action"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Tipo de Objeto:</label>
+                            <span id="detail-object-type"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>ID del Objeto:</label>
+                            <span id="detail-object-id"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Resultado:</label>
+                            <span id="detail-result"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Dirección IP:</label>
+                            <span id="detail-ip"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Origen:</label>
+                            <span id="detail-origin"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>ID de Sesión:</label>
+                            <span id="detail-session"></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>ID de Correlación:</label>
+                            <span id="detail-correlation"></span>
+                        </div>
+                        <div class="detail-item full-width">
+                            <label>Comentario:</label>
+                            <span id="detail-comment"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="before-after-tab" class="tab-content">
+                    <div class="comparison-container">
+                        <div class="data-panel">
+                            <h3>Estado Anterior</h3>
+                            <pre id="before-data"></pre>
+                        </div>
+                        <div class="data-panel">
+                            <h3>Estado Posterior</h3>
+                            <pre id="after-data"></pre>
+                        </div>
+                    </div>
+                    <div class="changes-highlight">
+                        <h3>Cambios Detectados</h3>
+                        <div id="changes-list"></div>
+                    </div>
+                </div>
+                
+                <div id="raw-tab" class="tab-content">
+                    <pre id="raw-json"></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="print-details">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button class="btn btn-outline" id="close-modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de exportación -->
+    <div id="export-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Exportar Registros de Auditoría</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <div class="option-group">
+                        <label>Formato:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="format" value="csv" checked> CSV</label>
+                            <label><input type="radio" name="format" value="excel"> Excel</label>
+                            <label><input type="radio" name="format" value="pdf"> PDF</label>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label>Campos a Incluir:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="fields" value="timestamp" checked> Fecha/Hora</label>
+                            <label><input type="checkbox" name="fields" value="user" checked> Usuario</label>
+                            <label><input type="checkbox" name="fields" value="module" checked> Módulo</label>
+                            <label><input type="checkbox" name="fields" value="action" checked> Acción</label>
+                            <label><input type="checkbox" name="fields" value="object" checked> Objeto</label>
+                            <label><input type="checkbox" name="fields" value="result" checked> Resultado</label>
+                            <label><input type="checkbox" name="fields" value="ip"> Dirección IP</label>
+                            <label><input type="checkbox" name="fields" value="comment"> Comentario</label>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label>Rango:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="range" value="current" checked> Resultados actuales</label>
+                            <label><input type="radio" name="range" value="all"> Todos los registros (filtrados)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirm-export">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+                <button class="btn btn-outline" id="cancel-export">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/auditoria.js"></script>
+</body>
+</html>

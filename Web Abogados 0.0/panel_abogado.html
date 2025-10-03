@@ -54,27 +54,25 @@
                 </li>
                 <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
                 <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="auditoria.html"><i class="fas fa-fingerprint"></i> Auditoría</a></li>
+                <li><a href="inv.html"><i class="fas fa-cubes"></i> Inventario</a></li>
                 <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
             </ul>
         </aside>
 
         <main class="main-content">
             <div class="requests-container">
-                <!-- <table class="requests-list"> -->
-                    <div class="requests-header">
-                        <div class="header-item">ID Caso</div>
-                        <div class="header-item">Cliente</div>
-                        <div class="header-item">Tipo</div>
-                        <div class="header-item">Fecha</div>
-                        <div class="header-item">Estado</div>
-                        <div class="header-item">Interacción</div>
-                        <div class="header-item">Acciones</div>
-                    </div>
-                    <div id="cases-container">
-                    </div>
-                </table>
-
-                
+                <div class="requests-header">
+                    <div class="header-item checkbox-header"><input type="checkbox"></div>
+                    <div class="header-item-interaccion">Interacción</div>
+                    <div class="header-item">ID Caso</div>
+                    <div class="header-item">Cliente</div>
+                    <div class="header-item">Tipo</div>
+                    <div class="header-item">Fecha</div>
+                    <div class="header-item">Estado</div>
+                    <div class="header-item">Acciones</div>
+                </div>
+                <div id="cases-container">
 
                 <div class="pagination">
                     <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Grupos de Usuarios</title>
+    <link rel="stylesheet" href="assets/css/grupos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="user-info">
+            <span>Dr. Juan Pérez</span>
+            <button class="logout-btn">Cerrar sesión</button>
+        </div>
+
+        <div class="theme-toggle-container">
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <label for="theme-toggle-checkbox" class="toggle-button">
+                <i class="fas fa-moon"></i>
+            </label>
+        </div>
+
+        <div class="logo">Bufete Legal</div>
+        
+        <div class="search-box">
+            <label for="search">Buscar:</label>
+            <input type="text" id="search" placeholder="ID, cliente o palabras clave">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div> 
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="user-profile">
+                <h1 class="page-title">Gestión de Grupos</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="panel_abogado.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                <li class="has-submenu" id="finanzas-menu-item">
+                    <a href="#"><i class="fas fa-dollar-sign"></i> Finanzas <i
+                            class="fas fa-chevron-down submenu-arrow"></i></a>
+                    <ul class="submenu">
+                        <li><a href="gestion_ingresos.html">Gestión de Ingresos</a></li>
+                        <li><a href="gestion_egresos.html">Gestión de Egresos</a></li>
+                        <li><a href="facturacion.html">Facturación Electrónica</a></li>
+                        <li><a href="cuentas_cobrar.html">Cuentas por Cobrar</a></li>
+                        <li><a href="cuentas_pagar.html">Cuentas por Pagar</a></li>
+                    </ul>
+                </li>
+                <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="auditoria.html"><i class="fas fa-fingerprint"></i> Auditoría</a></li>
+                <li><a href="inv.html"><i class="fas fa-cubes"></i> Inventario</a></li>
+                <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
+            </ul>
+        </aside>
+
+        <div class="header">
+            <h1><i class="fas fa-user-shield"></i> Gestión de Grupos de Usuarios</h1>
+            <p>Administre los grupos y usuarios que pertenecen a ellos</p>
+        </div>
+        
+        <main class="dashboard">
+            <!-- Panel de Grupos -->
+            <section class="groups-panel">
+                <h2>Grupos</h2>
+                <div class="panel-content">
+                    <div class="form-container">
+                        <h3 id="form-title">Crear Nuevo Grupo</h3>
+                        <form id="group-form">
+                            <input type="hidden" id="group-id">
+                            <div class="form-group">
+                                <label for="group-name">Nombre del Grupo:</label>
+                                <input type="text" id="group-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="group-description">Descripción:</label>
+                                <textarea id="group-description" rows="3"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" id="save-btn">Crear Grupo</button>
+                                <button type="button" id="cancel-btn" class="hidden">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="groups-list">
+                        <h3>Grupos Existentes</h3>
+                        <div id="groups-container" class="groups-container">
+                            <!-- Los grupos se cargarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Panel de Usuarios -->
+            <section class="users-panel">
+                <h2>Usuarios</h2>
+                <div class="panel-content">
+                    <div class="users-selection">
+
+                         <div class="group-users">
+                            <h3>Usuarios en el Grupo</h3>
+                            <div id="group-users" class="users-container">
+                                <!-- Los usuarios asignados al grupo seleccionado se cargarán aquí -->
+                            </div>
+                        </div>
+
+                        <div class="available-users">
+                            <h3>Usuarios Disponibles</h3>
+                            <div id="available-users" class="users-container">
+                                <!-- Los usuarios disponibles se cargarán aquí -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-actions">
+                        <button id="add-users" disabled>Agregar al Grupo</button>
+                        <button id="remove-users" disabled>Quitar del Grupo</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="assets/js/grupos.js"></script>
+</body>
+</html>

@@ -1,5 +1,4 @@
-/* Estilos de la plantilla base (header y sidebar) */
-/* Variables de color */
+/* Variables de color de la paleta original */
 :root {
     --primary-color: #1a365d;
     --secondary-color: #b8860b;
@@ -13,34 +12,79 @@
     --text-color: #333;
     --text-light: #777;
     --white: #fff;
+    --background-color: #f9f9f9;
+    --table-header-bg: var(--primary-color);
+    --table-text-color: var(--white);
+    --card-bg: var(--white);
+    --card-shadow: rgba(0, 0, 0, 0.05);
+}
+
+/* Paleta de colores para el modo oscuro */
+body.dark-theme {
+    --primary-color: #2C2C2C;
+    --secondary-color: #F5DEB3;
+    --accent-color: #D2B48C;
+    --light-gray: #3D3D3D;
+    --dark-gray: #ffffff;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --border-color: #555;
+    --text-color: #ffffff;
+    --text-light: #ffffff;
+    --white: #3D3D3D;
+    --background-color: #2C2C2C;
+    --table-header-bg: #3D3D3D;
+    --table-text-color: #F5DEB3;
+    --card-bg: #3D3D3D;
+    --card-shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* Transiciones para todas las propiedades */
+* {
+    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 /* Estilos generales */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-    background-color: #f9f9f9;
+    background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 /* Encabezado */
 header {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--white);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: sticky;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
     top: 0;
-    z-index: 100;
+    z-index: 101;
+}
+
+/* header .header-left, header .header-center, header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+} */
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo {
@@ -49,15 +93,15 @@ header {
     color: var(--white);
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+header h1 {
+    font-size: 1.5rem;
+    color: var(--white);
+    margin: 0;
 }
 
 .logout-btn {
     background-color: var(--secondary-color);
-    color: white;
+    color: var(--white);
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -69,23 +113,142 @@ header {
     background-color: #9a6d0b;
 }
 
-/* Contenedor principal */
-.container {
+/* Barra de búsqueda del header */
+.search-box {
     display: flex;
-    min-height: calc(100vh - 70px); /* Ajustado para el header fijo */
-    padding-top: 70px; /* Para evitar que el contenido se superponga con el header */
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #fcfcfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
 
-/* Barra lateral */
-sidebar {
+.search-box input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: var(--dark-gray);
+}
+
+.search-box input[type="text"]::placeholder {
+    color: #b8860b;
+}
+
+.search-button {
+    background-color: #9a6d0b;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button i {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.date-filter label {
+    font-weight: 500;
+}
+.date-filter select, #custom-range input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--white);
+}
+
+#refresh-btn {
+    padding: 8px 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+#refresh-btn:hover {
+    background-color: #385d88;
+}
+
+/* Estilos para el botón de cambio de tema */
+.theme-toggle-container {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 25px;
+    padding: 2px;
+}
+
+.theme-toggle-container input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-button {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.toggle-button i {
+    color: #444;
+    transition: color 0.3s ease;
+}
+
+#theme-toggle-checkbox:checked+.toggle-button {
+    transform: translateX(30px);
+}
+
+#theme-toggle-checkbox:checked+.toggle-button i {
+    color: var(--primary-color);
+}
+
+/* Layout de 3 columnas */
+.container {
+    display: flex;
+    min-height: calc(100vh - 70px);
+    padding-top: 70px;
+}
+
+/* Sidebar principal de navegación (izquierda) */
+.sidebar {
     width: 250px;
+    min-width: 250px;
     background-color: var(--white);
     padding: 1.5rem;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
     position: sticky;
-    top: 70px; /* Para que esté debajo del header fijo */
+    top: 70px;
     height: calc(100vh - 70px);
     overflow-y: auto;
+    z-index: 98;
 }
 
 .user-profile {
@@ -101,6 +264,7 @@ sidebar {
 
 .nav-menu {
     list-style: none;
+    width: 100%;
 }
 
 .nav-menu li {
@@ -117,7 +281,8 @@ sidebar {
     transition: all 0.3s;
 }
 
-.nav-menu a:hover, .nav-menu a.active {
+.nav-menu a:hover,
+.nav-menu a.active {
     background-color: var(--light-gray);
     color: var(--primary-color);
     font-weight: 500;
@@ -129,6 +294,56 @@ sidebar {
     text-align: center;
     color: var(--accent-color);
 }
+
+/* Estilos para el submenú */
+.sidebar .has-submenu {
+    position: relative;
+    padding-bottom: 0;
+}
+
+.sidebar .has-submenu>a {
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.sidebar .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: var(--light-gray);
+    border-left: 3px solid var(--accent-color);
+    margin-left: 20px;
+    font-size: 0.9rem;
+}
+
+.sidebar .submenu li a {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    border-radius: 0;
+    display: block;
+}
+
+.sidebar .submenu li a:hover {
+    background-color: #e0e0e0;
+}
+
+.sidebar .has-submenu.active>.submenu {
+    max-height: 500px;
+}
+
+.submenu-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar .has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
+}
+
 
 /* Contenido principal */
 main {

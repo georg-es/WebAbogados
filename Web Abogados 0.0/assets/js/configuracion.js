@@ -24,9 +24,27 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 'config_usu', 
             name: 'Usuarios y Permisos', 
             description: 'Gestión de usuarios, roles y permisos del sistema.', 
-            icon: 'users', 
+            icon: 'user-plus', 
             category: 'security',
             target: 'config_usu.html'
+        },
+
+        {
+            id: 'grupos',
+            name: 'Grupos de Usuarios',
+            description: 'Creación y administración de grupos personalizados de usuarios.',
+            icon: 'users',
+            category: 'security',
+            target: 'grupos.html'
+        },
+
+        {
+            id: 'rol_permiso',
+            name: 'Grupos por Roles',
+            description: 'Gestión de grupos basados en roles y permisos específicos.',
+            icon: 'shield',
+            category: 'security',
+            target: 'rol_permiso.html'
         },
         
         // Notificaciones
@@ -52,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             id: 'chatboot', 
             name: 'Integración con chatboot', 
             description: 'Configuración de integraciones con chatboot.', 
-            icon: 'plug-2', 
+            icon: 'bot', 
             category: 'integration',
             target: 'chatboot.html'
         },

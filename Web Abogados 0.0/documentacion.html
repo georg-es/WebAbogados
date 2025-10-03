@@ -10,27 +10,53 @@
 </head>
 <body>
     <header>
-        <div class="logo">Bufete Legal</div>
         <div class="user-info">
             <span>Dr. Juan Pérez</span>
             <button class="logout-btn">Cerrar sesión</button>
         </div>
+
+        <div class="theme-toggle-container">
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <label for="theme-toggle-checkbox" class="toggle-button">
+                <i class="fas fa-moon"></i>
+            </label>
+        </div>
+
+        <div class="logo">Bufete Legal</div>
+        
+        <div class="search-box">
+            <label for="search">Buscar:</label>
+            <input type="text" id="search" placeholder="ID, cliente o palabras clave">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div> 
     </header>
-    
+
     <div class="container">
-        <sidebar>
+        <aside class="sidebar">
             <div class="user-profile">
-                <h3>Panel de Abogado</h3>
+                <h1 class="page-title">Gestión de Documentos</h1>
             </div>
             <ul class="nav-menu">
-                <li><a href="panel_abogado.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="panel_abogado.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
                 <li><a href="calendario.html"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
-                <li><a href="finanzas.html"><i class="fas fa-dollar-sign"></i> Finanzas</a></li>
-                <li><a href="documentacion.html" class="active"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                <li class="has-submenu" id="finanzas-menu-item">
+                    <a href="#"><i class="fas fa-dollar-sign"></i> Finanzas <i class="fas fa-chevron-down submenu-arrow"></i></a>
+                    <ul class="submenu">
+                        <li><a href="gestion_ingresos.html">Gestión de Ingresos</a></li>
+                        <li><a href="gestion_egresos.html">Gestión de Egresos</a></li>
+                        <li><a href="facturacion.html">Facturación Electrónica</a></li>
+                        <li><a href="cuentas_cobrar.html">Cuentas por Cobrar</a></li>
+                        <li><a href="cuentas_pagar.html">Cuentas por Pagar</a></li>
+                    </ul>
+                </li>
+                <li><a href="documentacion.html"><i class="fas fa-file-alt"></i> Documentos</a></li>
                 <li><a href="analytics.html"><i class="fas fa-chart-line"></i> Analítica del Negocio</a></li>
+                <li><a href="auditoria.html"><i class="fas fa-fingerprint"></i> Auditoría</a></li>
                 <li><a href="configuracion.html"><i class="fas fa-cogs"></i> Configuración</a></li>
             </ul>
-        </sidebar>
+        </aside>
         
         <main>
             <h1 class="main-title">Gestión Documental Inteligente</h1>
